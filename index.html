@@ -41,6 +41,22 @@ layout: null
             font-size: 1.2rem;
             margin-bottom: 50px; 
         }
+
+        /* 新增：區塊外框與標題分隔線設計 */
+        .category-wrapper {
+            width: 100%;
+            text-align: left; /* 讓區塊標題靠左對齊，比較有層次感 */
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            color: #2d3748;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #a8e6cf; /* 薄荷綠虛線分隔線 */
+        }
         
         /* 響應式網格 */
         .unit-grid { 
@@ -82,15 +98,27 @@ layout: null
         <h1>Ms. Jin's 文法選擇題複習</h1>
         <p class="subtitle">請選擇練習單元</p>
 
-        <div class="unit-grid">
-            {% for page in site.html_pages %}
-                {% if page.title and page.url != "/" %}
-                <a href="{{ page.url | relative_url }}" class="unit-card">
-                    📝 {{ page.title }}
-                </a>
-                {% endif %}
-            {% endfor %}
+        {% assign sorted_pages = site.html_pages | sort: "name" %}
+
+        {% assign categories = "龍騰B1,龍騰B2,龍騰B3,龍騰B4,龍騰B5" | split: "," %}
+
+        {% for category in categories %}
+        <div class="category-wrapper">
+            <div class="category-title">{{ category }}</div>
+            <div class="unit-grid">
+                {% for page in sorted_pages %}
+                    {% if page.title and page.url != "/" %}
+                        {% if page.title contains category or page.name contains category %}
+                        <a href="{{ page.url | relative_url }}" class="unit-card">
+                            📝 {{ page.title }}
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
+        {% endfor %}
+
     </div>
 
 </body>
