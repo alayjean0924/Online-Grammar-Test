@@ -1,0 +1,290 @@
+---
+title: "龍騰B2 L5-1：All / What S + V + is (to)V / that S + V"
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文法測驗：All / What S + V + is (to)V / that S + V</title>
+    <style>
+        :root {
+            --primary: #4a90e2; --primary-dark: #357abd;
+            --success: #2ecc71; --danger: #e74c3c;
+            --bg: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%);
+            --text: #2c3e50; --gold: #f39c12;
+        }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 0; color: var(--text); }
+        #app { width: 95%; max-width: 750px; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        
+        .home-card { background: white; padding: 40px 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .home-card h1 { font-size: 2rem; color: var(--primary); margin: 0 0 10px; font-weight: 800; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(255,255,255,0.9); padding: 15px 25px; border-radius: 20px; }
+        .btn-back-home { background: #95a5a6; color: white; border: none; padding: 8px 18px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-back-home:hover { filter: brightness(0.9); }
+        
+        .card-container { perspective: 1500px; margin-bottom: 20px; }
+        .card-inner { position: relative; width: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; display: flex; min-height: 300px; }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { width: 100%; padding: 30px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .card-back { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #fffdf5; border: 3px solid var(--gold); transform: rotateY(180deg); z-index: 1; }
+        
+        .hint-text { font-size: 0.9rem; color: #95a5a6; margin-bottom: 15px; }
+        .sent-box { font-size: 1.4rem; line-height: 1.6; color: #34495e; text-align: left; }
+        .back-zh-box { font-size: 1.4rem; font-weight: bold; line-height: 1.6; color: var(--primary-dark); }
+        
+        .blank-text { 
+            color: var(--primary); 
+            font-weight: 900; 
+            border-bottom: 3px solid var(--primary);
+            padding: 0 10px;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .opt-btn { background: white; border: 2px solid #eef2f7; padding: 20px; border-radius: 15px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; font-weight: 600; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
+        .opt-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.02); box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); }
+        
+        .nav-bar { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
+        .btn-nav { flex: 1; padding: 18px; border-radius: 20px; border: none; background: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-nav:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-submit { background: var(--gold); color: white; }
+        .btn-submit:hover { background: #e67e22; }
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; width: 85%; max-width: 320px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+
+        .result-list { text-align: left; background: #f8f9fa; border-radius: 20px; padding: 20px; margin-top: 25px; max-height: 500px; overflow-y: auto; }
+        .result-item { border-bottom: 2px solid #ddd; padding: 20px 0; font-size: 1.1rem; }
+        .result-item:last-child { border-bottom: none; }
+        .text-green { color: var(--success); font-weight: bold; }
+        .text-red { color: var(--danger); font-weight: bold; }
+        .review-sent { font-size: 1.2rem; margin-bottom: 10px; color: #34495e; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="quiz-screen" class="screen active">
+        <div class="top-nav" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-back-home" style="background: var(--primary);" onclick="window.location.href='{{ "/" | relative_url }}'">⌂ 返回文法複習主頁面</button>
+                <button class="btn-back-home" onclick="location.reload()">↺ 重新開始</button>
+            </div>
+            <div style="font-weight: 800; color: var(--primary); white-space: nowrap;">Unit 5-1 | 第 <span id="progress-label"></span> 題</div>
+        </div>
+        
+        <div class="card-container" onclick="flipCard()">
+            <div class="card-inner" id="main-card-inner">
+                <div class="card-face card-front">
+                    <div class="hint-text">💡 點擊卡片翻面看中文解釋</div>
+                    <div id="quiz-stem" class="sent-box"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="hint-text" style="color: #d35400;">💡 點擊卡片翻回題目</div>
+                    <div id="back-zh" class="back-zh-box"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quiz-options" class="options-grid"></div>
+
+        <div class="nav-bar">
+            <button id="btn-prev" class="btn-nav" onclick="moveStep(-1)">← 上一題</button>
+            <button id="btn-next" class="btn-nav" onclick="moveStep(1)">下一題 →</button>
+            <button id="btn-submit" class="btn-nav btn-submit" style="display:none;" onclick="submitQuiz()">送出看成績 📝</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="home-card">
+            <h2 id="final-title" style="margin-bottom:20px;">🏆 測驗完成！</h2>
+            <div id="final-score" style="font-size: 3.5rem; color: var(--primary); font-weight: 800; margin: 10px 0;"></div>
+            <p id="final-stats" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px;"></p>
+            <div id="report-list-view" class="result-list"></div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px;">
+                <button class="btn-main" onclick="location.reload()" style="margin: 0;">↺ 再測驗一次</button>
+                <button class="btn-main" onclick="window.location.href='{{ "/" | relative_url }}'" style="margin: 0; background: #95a5a6;">⌂ 返回文法複習主頁面</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            q: "All that I want to do after graduation ______ around Europe with my friends.",
+            opts: ["(A) are travel", "(B) is travel", "(C) is traveled", "(D) are traveling"],
+            ans: 1, 
+            zh: "畢業後我唯一想做的事就是和朋友一起環遊歐洲。"
+        },
+        {
+            q: "What most teenagers need to learn today ______ online popularity does not always reflect real friendship.",
+            opts: ["(A) are that", "(B) is that", "(C) were that", "(D) are what"],
+            ans: 1, 
+            zh: "現今大多數青少年需要學習的是，網路人氣並不總是反映真實的友誼。"
+        },
+        {
+            q: "The only thing that we can do right now ______ patiently until the weather improves.",
+            opts: ["(A) is wait", "(B) are waiting", "(C) was waited", "(D) is waited"],
+            ans: 0,
+            zh: "我們現在唯一能做的就是耐心等待直到天氣好轉。"
+        },
+        {
+            q: "All that my parents wanted to hear ______ that I was safe after the earthquake.",
+            opts: ["(A) are", "(B) were", "(C) was", "(D) be"],
+            ans: 2,
+            zh: "地震後我父母唯一想聽到的就是我很安全。"
+        },
+        {
+            q: "What students should remember during stressful exams ______ enough sleep often improves concentration.",
+            opts: ["(A) are that getting", "(B) is that getting", "(C) was getting that", "(D) are getting that"],
+            ans: 1,
+            zh: "學生在壓力大的考試期間應該記住的是，充足的睡眠通常能提高注意力。"
+        },
+        {
+            q: "The only thing that she had to do before leaving ______ every classroom window carefully.",
+            opts: ["(A) was locking", "(B) was lock", "(C) were lock", "(D) is locked"],
+            ans: 1,
+            zh: "她離開前唯一必須要做的就是仔細鎖好每一扇教室窗戶。"
+        },
+        {
+            q: "All that many young employees want today ______ flexible working hours and better work-life balance.",
+            opts: ["(A) are", "(B) were", "(C) is", "(D) be"],
+            ans: 2,
+            zh: "現今許多年輕員工想要的只是彈性的工時和更好的工作與生活平衡。"
+        },
+        {
+            q: "What tourists need to understand before visiting temples ______ respectful clothing is important there.",
+            opts: ["(A) are that wearing", "(B) is that wearing", "(C) was wearing", "(D) are wearing"],
+            ans: 1,
+            zh: "遊客在參觀寺廟前需要了解的是，穿著莊重得體的服裝在那裡很重要。"
+        },
+        {
+            q: "The only thing that I can say about the experience ______ it completely changed my attitude toward failure.",
+            opts: ["(A) is that", "(B) are that", "(C) was what", "(D) are what"],
+            ans: 0,
+            zh: "關於這次經驗，我唯一能說的是它徹底改變了我對失敗的態度。"
+        },
+        {
+            q: "All that children really want during difficult times ______ their parents to stay calm and supportive.",
+            opts: ["(A) are", "(B) is", "(C) were", "(D) be"],
+            ans: 1,
+            zh: "在困難時期，孩子們真正想要的只是父母保持冷靜並給予支持。"
+        }
+    ];
+
+    // Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
+    shuffleArray(questionsData);
+
+    let curIdx = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+
+    function render() {
+        const item = questionsData[curIdx];
+        document.getElementById('progress-label').innerText = `${curIdx + 1} / ${questionsData.length}`;
+        document.getElementById('main-card-inner').classList.remove('is-flipped');
+        
+        const displayQ = item.q.replace(/_+/g, '<span class="blank-text"> </span>');
+        document.getElementById('quiz-stem').innerHTML = displayQ;
+        document.getElementById('back-zh').innerText = item.zh;
+        
+        const optionsArea = document.getElementById('quiz-options');
+        optionsArea.innerHTML = '';
+        item.opts.forEach((optStr, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn' + (userAnswers[curIdx] === optIdx ? ' selected' : '');
+            btn.innerText = optStr;
+            btn.onclick = () => selectOption(optIdx);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('btn-prev').disabled = (curIdx === 0);
+        
+        if (curIdx === questionsData.length - 1) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'block';
+        } else {
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'none';
+        }
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[curIdx] = optIdx;
+        render();
+    }
+
+    function flipCard() {
+        document.getElementById('main-card-inner').classList.toggle('is-flipped');
+    }
+
+    function moveStep(n) {
+        let next = curIdx + n;
+        if (next >= 0 && next < questionsData.length) {
+            curIdx = next;
+            render();
+        }
+    }
+
+    function submitQuiz() {
+        let unanswered = userAnswers.filter(ans => ans === null).length;
+        if (unanswered > 0) {
+            let confirmSubmit = confirm(`你還有 ${unanswered} 題未作答，確定要送出嗎？`);
+            if (!confirmSubmit) return;
+        }
+
+        let correctCount = 0;
+        let reportHTML = '';
+
+        questionsData.forEach((item, index) => {
+            let userAnsIdx = userAnswers[index];
+            let isCorrect = (userAnsIdx === item.ans);
+            if (isCorrect) correctCount++;
+
+            let userAnsStr = userAnsIdx !== null ? item.opts[userAnsIdx] : "（未作答）";
+            let correctAnsStr = item.opts[item.ans];
+            
+            let reviewSent = item.q.replace(/_+/g, `<span class="${isCorrect ? 'text-green' : 'text-red'}"> [ ${userAnsStr} ] </span>`);
+
+            reportHTML += `
+                <div class="result-item">
+                    <div class="review-sent"><b>Q${index + 1}:</b> ${reviewSent}</div>
+                    <div style="font-size:0.95rem; color:#7f8c8d; margin-bottom:10px;">${item.zh}</div>
+                    <div>你的作答：<span class="${isCorrect ? 'text-green' : 'text-red'}">${userAnsStr}</span> ${isCorrect ? '✅' : '❌'}</div>
+                    ${!isCorrect ? `<div>正確答案：<span class="text-green">${correctAnsStr}</span></div>` : ''}
+                </div>
+            `;
+        });
+
+        const rate = Math.round((correctCount / questionsData.length) * 100);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `${rate} 分`;
+        document.getElementById('final-stats').innerText = `答對題數：${correctCount} / ${questionsData.length}`;
+        document.getElementById('report-list-view').innerHTML = reportHTML;
+    }
+
+    window.onload = () => { render(); };
+</script>
+</body>
+</html>
