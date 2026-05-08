@@ -124,10 +124,10 @@ layout: null
 <script>
     const questionsData = [
         {
-            q: "Of the two students, one preferred studying quietly at home, while ______ enjoyed discussing difficult questions after school.",
+            q: "Of the two students, one prefers studying quietly at home, while ______ enjoys discussing difficult questions after school.",
             opts: ["(A) another", "(B) the other", "(C) others", "(D) other"],
             ans: 1, 
-            zh: "兩個學生中，一個偏好在家安靜讀書，而另一個喜歡在放學後討論難題。"
+            zh: "這兩名學生中，一個喜歡在家安靜學習，而另一個喜歡在放學後討論難題。"
         },
         {
             q: "Of the two restaurants near the station, one serves Taiwanese dishes, while ______ offers Western-style meals.",
@@ -136,28 +136,28 @@ layout: null
             zh: "車站附近的兩家餐廳中，一家供應台灣菜，而另一家提供西式餐點。"
         },
         {
-            q: "Of the five teachers, one encouraged creative thinking, while ______ focused more heavily on grammar accuracy.",
+            q: "Of the five teachers, one encourages creative thinking, while ______ focus more heavily on grammar accuracy.",
             opts: ["(A) another", "(B) others", "(C) the others", "(D) other"],
             ans: 2,
-            zh: "五位老師中，一位鼓勵創意思考，而其餘的老師則較注重文法的正確性。"
+            zh: "這五位老師中，一位鼓勵創意思考，而其餘的則更注重文法的正確性。"
         },
         {
-            q: "One classmate planned the slides, ______ prepared the introduction, and the others practiced answering questions.",
-            opts: ["(A) another", "(B) the other", "(C) others", "(D) other"],
+            q: "One classmate plans the slides, another prepares the introduction, and ______ practice answering questions afterward.",
+            opts: ["(A) the others", "(B) another", "(C) the other", "(D) other"],
             ans: 0,
-            zh: "一位同學規劃了簡報投影片，另一位準備了開場白，而其餘的同學則練習回答問題。"
+            zh: "一位同學規劃投影片，另一位準備開場白，而其餘的同學則練習之後的問答。"
         },
         {
-            q: "One solution reduced traffic congestion, ______ improved public transportation systems.",
-            opts: ["(A) the others", "(B) another", "(C) others", "(D) other"],
-            ans: 1,
-            zh: "一個解決方案減少了交通阻塞，另一個則改善了大眾運輸系統。"
+            q: "One solution reduces traffic congestion, another improves public transportation systems, while ______ focus mainly on environmental protection policies.",
+            opts: ["(A) the others", "(B) another", "(C) the other", "(D) other"],
+            ans: 0,
+            zh: "一個解決方案減少交通擁塞，另一個改善大眾運輸系統，而其餘的則主要集中在環境保護政策上。"
         },
         {
             q: "Some of the volunteers cleaned the beach carefully, while ______ sorted recyclable materials nearby.",
             opts: ["(A) another", "(B) others", "(C) the others", "(D) other"],
             ans: 2,
-            zh: "這群志工中，有一些人仔細地清理海灘，而其餘的人則在附近分類可回收物。"
+            zh: "志工當中，有些人仔細地清理海灘，而其餘的志工在附近將可回收物分類。"
         },
         {
             q: "Some students enjoy debate competitions, while ______ prefer quieter extracurricular activities.",
@@ -169,22 +169,23 @@ layout: null
             q: "Some tourists visited famous temples, others explored night markets, and still ______ joined cycling tours nearby.",
             opts: ["(A) another", "(B) others", "(C) the other", "(D) other"],
             ans: 1,
-            zh: "有些遊客參觀了著名的寺廟，有些逛了夜市，還有一些參加了附近的單車導覽。"
+            zh: "有些遊客參觀著名寺廟，有些探索夜市，還有一些參加了附近的自行車導覽。"
         },
         {
-            q: "Some employees supported remote working policies enthusiastically, while ______ worried about weaker teamwork.",
+            q: "Some employees support remote working policies enthusiastically, while ______ worry about weaker teamwork.",
             opts: ["(A) another", "(B) the other", "(C) others", "(D) other"],
             ans: 2,
-            zh: "有些員工熱烈支持遠距工作政策，而其他人則擔心團隊合作會變弱。"
+            zh: "有些員工熱烈支持遠距工作政策，而其他員工則擔心團隊合作會變弱。"
         },
         {
             q: "Some teenagers spend weekends attending cram schools, others work part-time jobs, and still others ______ at home with family members.",
             opts: ["(A) relaxes", "(B) relaxing", "(C) relax", "(D) relaxed"],
             ans: 2,
-            zh: "有些青少年週末去補習班，有些打工，還有一些則和家人待在家裡休息。"
+            zh: "有些青少年週末去補習班，有些打工，還有一些與家人待在家休息。"
         }
     ];
 
+    // 新增：Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -192,6 +193,7 @@ layout: null
         }
     }
 
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
     shuffleArray(questionsData);
 
     let curIdx = 0;
