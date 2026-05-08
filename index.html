@@ -1,0 +1,97 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ms. Jin's 文法選擇題複習</title>
+    <style>
+        /* 基礎設定與春天漸層背景 (薄荷綠 -> 櫻花淡粉) */
+        body { 
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+            background: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%); 
+            min-height: 100vh; 
+            margin: 0;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 60px 20px; 
+        }
+        
+        .container { 
+            max-width: 850px; 
+            width: 100%; 
+            text-align: center; 
+        }
+
+        /* 標題：深灰藍色 */
+        h1 { 
+            color: #2d3748; 
+            font-size: 2.8rem; 
+            letter-spacing: 1.5px;
+            margin-bottom: 12px; 
+        }
+
+        /* 副標題：珊瑚橘 */
+        .subtitle { 
+            color: #e67e22; 
+            font-weight: bold; 
+            font-size: 1.2rem;
+            margin-bottom: 50px; 
+        }
+        
+        /* 響應式網格 */
+        .unit-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+            gap: 25px; 
+        }
+        
+        /* 按鈕設計 */
+        .unit-card {
+            background: #ffffff; 
+            padding: 24px 20px; 
+            border-radius: 12px; 
+            text-decoration: none;
+            color: #4a5568; 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            border-left: 6px solid #a8e6cf; 
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        /* 懸停互動 */
+        .unit-card:hover {
+            transform: translateY(-6px); 
+            border-left-color: #ff8b94; 
+            color: #ff8b94;
+            box-shadow: 0 12px 24px rgba(255, 139, 148, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Ms. Jin's 文法選擇題複習</h1>
+        <p class="subtitle">請選擇練習單元</p>
+
+        <div class="unit-grid">
+            {% for page in site.html_pages %}
+                {% if page.title and page.url != "/" %}
+                <a href="{{ page.url | relative_url }}" class="unit-card">
+                    📝 {{ page.title }}
+                </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
