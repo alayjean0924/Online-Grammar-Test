@@ -1,0 +1,350 @@
+---
+title: "龍騰B2 L7-1：S + keep/leave/find + O + OC."
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文法測驗：keep / leave / find + O + OC</title>
+    <style>
+        :root {
+            --primary: #4a90e2; --primary-dark: #357abd;
+            --success: #2ecc71; --danger: #e74c3c;
+            --bg: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%);
+            --text: #2c3e50; --gold: #f39c12;
+        }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 0; color: var(--text); }
+        #app { width: 95%; max-width: 750px; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        
+        .home-card { background: white; padding: 40px 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .home-card h1 { font-size: 2rem; color: var(--primary); margin: 0 0 10px; font-weight: 800; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(255,255,255,0.9); padding: 15px 25px; border-radius: 20px; }
+        .btn-back-home { background: #95a5a6; color: white; border: none; padding: 8px 18px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-back-home:hover { filter: brightness(0.9); }
+        
+        .card-container { perspective: 1500px; margin-bottom: 20px; }
+        .card-inner { position: relative; width: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; display: flex; min-height: 300px; }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { width: 100%; padding: 30px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .card-back { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #fffdf5; border: 3px solid var(--gold); transform: rotateY(180deg); z-index: 1; }
+        
+        .hint-text { font-size: 0.9rem; color: #95a5a6; margin-bottom: 15px; }
+        .sent-box { font-size: 1.4rem; line-height: 1.6; color: #34495e; text-align: left; }
+        .back-zh-box { font-size: 1.4rem; font-weight: bold; line-height: 1.6; color: var(--primary-dark); }
+        
+        .blank-text { 
+            color: var(--primary); 
+            font-weight: 900; 
+            border-bottom: 3px solid var(--primary);
+            padding: 0 10px;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .opt-btn { background: white; border: 2px solid #eef2f7; padding: 20px; border-radius: 15px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; font-weight: 600; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
+        .opt-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.02); box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); }
+        
+        .nav-bar { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
+        .btn-nav { flex: 1; padding: 18px; border-radius: 20px; border: none; background: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-nav:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-submit { background: var(--gold); color: white; }
+        .btn-submit:hover { background: #e67e22; }
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; width: 85%; max-width: 320px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+
+        .result-list { text-align: left; background: #f8f9fa; border-radius: 20px; padding: 20px; margin-top: 25px; max-height: 500px; overflow-y: auto; }
+        .result-item { border-bottom: 2px solid #ddd; padding: 20px 0; font-size: 1.1rem; }
+        .result-item:last-child { border-bottom: none; }
+        .text-green { color: var(--success); font-weight: bold; }
+        .text-red { color: var(--danger); font-weight: bold; }
+        .review-sent { font-size: 1.2rem; margin-bottom: 10px; color: #34495e; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="quiz-screen" class="screen active">
+        <div class="top-nav" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-back-home" style="background: var(--primary);" onclick="window.location.href='{{ "/" | relative_url }}'">⌂ 返回文法複習主頁面</button>
+                <button class="btn-back-home" onclick="location.reload()">↺ 重新開始</button>
+            </div>
+            <div style="font-weight: 800; color: var(--primary); white-space: nowrap;">Unit 7-1 | 第 <span id="progress-label"></span> 題</div>
+        </div>
+        
+        <div class="card-container" onclick="flipCard()">
+            <div class="card-inner" id="main-card-inner">
+                <div class="card-face card-front">
+                    <div class="hint-text">💡 點擊卡片翻面看中文解釋</div>
+                    <div id="quiz-stem" class="sent-box"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="hint-text" style="color: #d35400;">💡 點擊卡片翻回題目</div>
+                    <div id="back-zh" class="back-zh-box"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quiz-options" class="options-grid"></div>
+
+        <div class="nav-bar">
+            <button id="btn-prev" class="btn-nav" onclick="moveStep(-1)">← 上一題</button>
+            <button id="btn-next" class="btn-nav" onclick="moveStep(1)">下一題 →</button>
+            <button id="btn-submit" class="btn-nav btn-submit" style="display:none;" onclick="submitQuiz()">送出看成績 📝</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="home-card">
+            <h2 id="final-title" style="margin-bottom:20px;">🏆 測驗完成！</h2>
+            <div id="final-score" style="font-size: 3.5rem; color: var(--primary); font-weight: 800; margin: 10px 0;"></div>
+            <p id="final-stats" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px;"></p>
+            <div id="report-list-view" class="result-list"></div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px;">
+                <button class="btn-main" onclick="location.reload()" style="margin: 0;">↺ 再測驗一次</button>
+                <button class="btn-main" onclick="window.location.href='{{ "/" | relative_url }}'" style="margin: 0; background: #95a5a6;">⌂ 返回文法複習主頁面</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            q: "The teacher kept the students ______ quietly during the final review session before tomorrow’s important English examination.",
+            opts: ["(A) to work", "(B) worked", "(C) working", "(D) work"],
+            ans: 2, 
+            zh: "老師在明天重要的英文考試前的最後複習時間裡，讓學生們安靜地學習。"
+        },
+        {
+            q: "The sudden thunderstorm ______ several neighborhood streets completely flooded after heavy rain continued throughout the entire afternoon yesterday.",
+            opts: ["(A) hoped", "(B) listened", "(C) left", "(D) agreed"],
+            ans: 2, 
+            zh: "昨天整個下午持續下大雨後，突如其來的雷陣雨使附近幾條街道完全淹水。"
+        },
+        {
+            q: "My parents found me extremely ______ after spending several stressful nights preparing for the university entrance examination.",
+            opts: ["(A) exhausting", "(B) exhaust", "(C) to exhaust", "(D) exhausted"],
+            ans: 3,
+            zh: "經歷了幾個壓力極大、熬夜準備大學入學考試的夜晚後，我的父母發現我極度疲憊。"
+        },
+        {
+            q: "The tourists ______ their bags under the wooden bench while purchasing snacks from the crowded night market nearby.",
+            opts: ["(A) left", "(B) smiled", "(C) waited", "(D) replied"],
+            ans: 0,
+            zh: "遊客們在附近擁擠的夜市買零食時，把包包留在木椅下。"
+        },
+        {
+            q: "The exciting movie kept the audience ______ loudly throughout the entire performance at the downtown theater last weekend.",
+            opts: ["(A) laugh", "(B) to laugh", "(C) laughing", "(D) laughed"],
+            ans: 2,
+            zh: "這部刺激的電影在上週末市中心劇院的整場演出中，讓觀眾不斷大笑。"
+        },
+        {
+            q: "The powerful earthquake left several office buildings seriously ______ near the crowded shopping district downtown yesterday afternoon.",
+            opts: ["(A) damaging", "(B) damaged", "(C) damage", "(D) to damage"],
+            ans: 1,
+            zh: "昨天下午，強烈的地震導致市中心擁擠購物區附近的幾棟辦公大樓嚴重受損。"
+        },
+        {
+            q: "The teacher ______ several students surprisingly nervous before the final speech competition officially started at school yesterday morning.",
+            opts: ["(A) found", "(B) talked", "(C) waited", "(D) listened"],
+            ans: 0,
+            zh: "昨天早上學校的最終演講比賽正式開始前，老師發現幾位學生出奇地緊張。"
+        },
+        {
+            q: "My younger brother accidentally ______ his basketball shoes beside the front door before rushing quickly to practice yesterday afternoon.",
+            opts: ["(A) left", "(B) laughed", "(C) slept", "(D) happened"],
+            ans: 0,
+            zh: "昨天下午匆忙趕去練習之前，我弟弟不小心把籃球鞋留在前門旁邊。"
+        },
+        {
+            q: "The manager kept his employees ______ patiently outside the conference room before the important meeting officially started yesterday.",
+            opts: ["(A) wait", "(B) waited", "(C) waiting", "(D) to wait"],
+            ans: 2,
+            zh: "昨天重要會議正式開始之前，經理讓員工們在會議室外耐心地等候。"
+        },
+        {
+            q: "The heavy rain left many hiking trails completely ______ after rocks suddenly rolled down the mountain yesterday evening.",
+            opts: ["(A) blocked", "(B) blocking", "(C) block", "(D) to block"],
+            ans: 0,
+            zh: "昨天傍晚岩石突然滾落山下後，大雨使得許多登山步道完全被阻擋。"
+        },
+        {
+            q: "The difficult mathematics homework ______ several students extremely frustrated throughout the long holiday weekend before school reopened.",
+            opts: ["(A) promised", "(B) asked", "(C) decided", "(D) kept"],
+            ans: 3,
+            zh: "在學校重新開學前漫長的假日週末裡，困難的數學作業讓幾個學生感到極度挫折。"
+        },
+        {
+            q: "The little boy ______ his favorite stuffed animal on the living room sofa before going upstairs to brush his teeth.",
+            opts: ["(A) smiled", "(B) left", "(C) replied", "(D) agreed"],
+            ans: 1,
+            zh: "小男孩在上樓刷牙之前，把他最喜歡的絨毛玩具留在客廳的沙發上。"
+        },
+        {
+            q: "The school festival kept hundreds of students ______ excitedly throughout the energetic dance performance on the playground yesterday evening.",
+            opts: ["(A) to cheer", "(B) cheered", "(C) cheer", "(D) cheering"],
+            ans: 3,
+            zh: "昨天傍晚操場上充滿活力的舞蹈表演過程中，學校校慶讓數百名學生興奮地歡呼不停。"
+        },
+        {
+            q: "The serious accident left one side of the busy highway temporarily ______ for emergency repairs yesterday afternoon.",
+            opts: ["(A) closing", "(B) closed", "(C) close", "(D) to close"],
+            ans: 1,
+            zh: "昨天下午，這起嚴重的事故使得繁忙的高速公路一側暫時封閉以進行緊急維修。"
+        },
+        {
+            q: "My grandmother ______ the restaurant unexpectedly crowded because many families gathered there for the holiday celebration.",
+            opts: ["(A) found", "(B) hoped", "(C) happened", "(D) listened"],
+            ans: 0,
+            zh: "我祖母發現這家餐廳出乎意料地擁擠，因為許多家庭聚集在那裡慶祝節日。"
+        },
+        {
+            q: "The teacher left the classroom door slightly ______ during lunchtime so students could return more easily afterward.",
+            opts: ["(A) open", "(B) opening", "(C) openly", "(D) to open"],
+            ans: 0,
+            zh: "午餐時間老師讓教室的門稍微開著，以便學生之後能更容易回來。"
+        },
+        {
+            q: "The coach kept the team ______ repeatedly before the national basketball championship competition officially began next month.",
+            opts: ["(A) practice", "(B) to practice", "(C) practicing", "(D) practiced"],
+            ans: 2,
+            zh: "下個月全國籃球錦標賽正式開始之前，教練讓球隊不斷地反覆練習。"
+        },
+        {
+            q: "The long flight ______ many exhausted travelers completely asleep during the quiet bus ride toward the hotel afterward.",
+            opts: ["(A) listened", "(B) left", "(C) suggested", "(D) smiled"],
+            ans: 1,
+            zh: "漫長的飛行使得許多疲憊的旅客在隨後安靜的巴士旅程中完全睡著了。"
+        },
+        {
+            q: "My parents ______ several important documents inside the kitchen drawer while cleaning the house yesterday afternoon.",
+            opts: ["(A) waited", "(B) listened", "(C) slept", "(D) found"],
+            ans: 3,
+            zh: "昨天下午打掃房子時，我父母在廚房抽屜裡發現了幾份重要的文件。"
+        },
+        {
+            q: "The frightening storm kept many local residents ______ nervously throughout the entire night before sunrise finally arrived.",
+            opts: ["(A) wake", "(B) awake", "(C) waking", "(D) to wake"],
+            ans: 1,
+            zh: "在日出終於到來之前的整個夜晚，可怕的風暴讓許多當地居民緊張地醒著（無法入眠）。"
+        }
+    ];
+
+    // Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
+    shuffleArray(questionsData);
+
+    let curIdx = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+
+    function render() {
+        const item = questionsData[curIdx];
+        document.getElementById('progress-label').innerText = `${curIdx + 1} / ${questionsData.length}`;
+        document.getElementById('main-card-inner').classList.remove('is-flipped');
+        
+        const displayQ = item.q.replace(/_+/g, '<span class="blank-text"> </span>');
+        document.getElementById('quiz-stem').innerHTML = displayQ;
+        document.getElementById('back-zh').innerText = item.zh;
+        
+        const optionsArea = document.getElementById('quiz-options');
+        optionsArea.innerHTML = '';
+        item.opts.forEach((optStr, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn' + (userAnswers[curIdx] === optIdx ? ' selected' : '');
+            btn.innerText = optStr;
+            btn.onclick = () => selectOption(optIdx);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('btn-prev').disabled = (curIdx === 0);
+        
+        if (curIdx === questionsData.length - 1) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'block';
+        } else {
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'none';
+        }
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[curIdx] = optIdx;
+        render();
+    }
+
+    function flipCard() {
+        document.getElementById('main-card-inner').classList.toggle('is-flipped');
+    }
+
+    function moveStep(n) {
+        let next = curIdx + n;
+        if (next >= 0 && next < questionsData.length) {
+            curIdx = next;
+            render();
+        }
+    }
+
+    function submitQuiz() {
+        let unanswered = userAnswers.filter(ans => ans === null).length;
+        if (unanswered > 0) {
+            let confirmSubmit = confirm(`你還有 ${unanswered} 題未作答，確定要送出嗎？`);
+            if (!confirmSubmit) return;
+        }
+
+        let correctCount = 0;
+        let reportHTML = '';
+
+        questionsData.forEach((item, index) => {
+            let userAnsIdx = userAnswers[index];
+            let isCorrect = (userAnsIdx === item.ans);
+            if (isCorrect) correctCount++;
+
+            let userAnsStr = userAnsIdx !== null ? item.opts[userAnsIdx] : "（未作答）";
+            let correctAnsStr = item.opts[item.ans];
+            
+            let reviewSent = item.q.replace(/_+/g, `<span class="${isCorrect ? 'text-green' : 'text-red'}"> [ ${userAnsStr} ] </span>`);
+
+            reportHTML += `
+                <div class="result-item">
+                    <div class="review-sent"><b>Q${index + 1}:</b> ${reviewSent}</div>
+                    <div style="font-size:0.95rem; color:#7f8c8d; margin-bottom:10px;">${item.zh}</div>
+                    <div>你的作答：<span class="${isCorrect ? 'text-green' : 'text-red'}">${userAnsStr}</span> ${isCorrect ? '✅' : '❌'}</div>
+                    ${!isCorrect ? `<div>正確答案：<span class="text-green">${correctAnsStr}</span></div>` : ''}
+                </div>
+            `;
+        });
+
+        const rate = Math.round((correctCount / questionsData.length) * 100);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `${rate} 分`;
+        document.getElementById('final-stats').innerText = `答對題數：${correctCount} / ${questionsData.length}`;
+        document.getElementById('report-list-view').innerHTML = reportHTML;
+    }
+
+    window.onload = () => { render(); };
+</script>
+</body>
+</html>
