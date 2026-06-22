@@ -1,0 +1,350 @@
+---
+title: "龍騰B2 L8-2：Upon / On + V-ing (一...就...)"
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文法測驗：Upon / On + V-ing (一...就...)</title>
+    <style>
+        :root {
+            --primary: #4a90e2; --primary-dark: #357abd;
+            --success: #2ecc71; --danger: #e74c3c;
+            --bg: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%);
+            --text: #2c3e50; --gold: #f39c12;
+        }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 0; color: var(--text); }
+        #app { width: 95%; max-width: 750px; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        
+        .home-card { background: white; padding: 40px 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .home-card h1 { font-size: 2rem; color: var(--primary); margin: 0 0 10px; font-weight: 800; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(255,255,255,0.9); padding: 15px 25px; border-radius: 20px; }
+        .btn-back-home { background: #95a5a6; color: white; border: none; padding: 8px 18px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-back-home:hover { filter: brightness(0.9); }
+        
+        .card-container { perspective: 1500px; margin-bottom: 20px; }
+        .card-inner { position: relative; width: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; display: flex; min-height: 300px; }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { width: 100%; padding: 30px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .card-back { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #fffdf5; border: 3px solid var(--gold); transform: rotateY(180deg); z-index: 1; }
+        
+        .hint-text { font-size: 0.9rem; color: #95a5a6; margin-bottom: 15px; }
+        .sent-box { font-size: 1.4rem; line-height: 1.6; color: #34495e; text-align: left; }
+        .back-zh-box { font-size: 1.4rem; font-weight: bold; line-height: 1.6; color: var(--primary-dark); }
+        
+        .blank-text { 
+            color: var(--primary); 
+            font-weight: 900; 
+            border-bottom: 3px solid var(--primary);
+            padding: 0 10px;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .opt-btn { background: white; border: 2px solid #eef2f7; padding: 20px; border-radius: 15px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; font-weight: 600; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
+        .opt-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.02); box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); }
+        
+        .nav-bar { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
+        .btn-nav { flex: 1; padding: 18px; border-radius: 20px; border: none; background: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-nav:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-submit { background: var(--gold); color: white; }
+        .btn-submit:hover { background: #e67e22; }
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; width: 85%; max-width: 320px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+
+        .result-list { text-align: left; background: #f8f9fa; border-radius: 20px; padding: 20px; margin-top: 25px; max-height: 500px; overflow-y: auto; }
+        .result-item { border-bottom: 2px solid #ddd; padding: 20px 0; font-size: 1.1rem; }
+        .result-item:last-child { border-bottom: none; }
+        .text-green { color: var(--success); font-weight: bold; }
+        .text-red { color: var(--danger); font-weight: bold; }
+        .review-sent { font-size: 1.2rem; margin-bottom: 10px; color: #34495e; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="quiz-screen" class="screen active">
+        <div class="top-nav" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-back-home" style="background: var(--primary);" onclick="window.location.href='{{ "/" | relative_url }}'">⌂ 返回文法複習主頁面</button>
+                <button class="btn-back-home" onclick="location.reload()">↺ 重新開始</button>
+            </div>
+            <div style="font-weight: 800; color: var(--primary); white-space: nowrap;">Unit 8-2 | 第 <span id="progress-label"></span> 題</div>
+        </div>
+        
+        <div class="card-container" onclick="flipCard()">
+            <div class="card-inner" id="main-card-inner">
+                <div class="card-face card-front">
+                    <div class="hint-text">💡 點擊卡片翻面看中文解釋</div>
+                    <div id="quiz-stem" class="sent-box"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="hint-text" style="color: #d35400;">💡 點擊卡片翻回題目</div>
+                    <div id="back-zh" class="back-zh-box"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quiz-options" class="options-grid"></div>
+
+        <div class="nav-bar">
+            <button id="btn-prev" class="btn-nav" onclick="moveStep(-1)">← 上一題</button>
+            <button id="btn-next" class="btn-nav" onclick="moveStep(1)">下一題 →</button>
+            <button id="btn-submit" class="btn-nav btn-submit" style="display:none;" onclick="submitQuiz()">送出看成績 📝</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="home-card">
+            <h2 id="final-title" style="margin-bottom:20px;">🏆 測驗完成！</h2>
+            <div id="final-score" style="font-size: 3.5rem; color: var(--primary); font-weight: 800; margin: 10px 0;"></div>
+            <p id="final-stats" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px;"></p>
+            <div id="report-list-view" class="result-list"></div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px;">
+                <button class="btn-main" onclick="location.reload()" style="margin: 0;">↺ 再測驗一次</button>
+                <button class="btn-main" onclick="window.location.href='{{ "/" | relative_url }}'" style="margin: 0; background: #95a5a6;">⌂ 返回文法複習主頁面</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            q: "______ at the crowded airport, the tourists immediately searched for transportation to their downtown hotel nearby.",
+            opts: ["(A) Upon arriving", "(B) On arrived", "(C) As soon as arriving", "(D) Upon they arrive"],
+            ans: 0, 
+            zh: "一抵達擁擠的機場，遊客們立刻尋找前往市區飯店的交通工具。"
+        },
+        {
+            q: "______ the emergency alarm suddenly, students quickly left the classroom and gathered outside together safely.",
+            opts: ["(A) Heard", "(B) On hearing", "(C) As soon as hearing", "(D) Upon hear"],
+            ans: 1, 
+            zh: "一突然聽到緊急警報，學生們迅速離開教室並安全地聚集在外面。"
+        },
+        {
+            q: "______, she excitedly called her parents to share the news.",
+            opts: ["(A) As soon as my classmate received the scholarship email", "(B) Upon my classmate received the scholarship email", "(C) On received the scholarship email", "(D) As soon as receiving the scholarship email"],
+            ans: 0,
+            zh: "我同學一收到獎學金電子郵件，就興奮地打電話給父母分享這個消息。"
+        },
+        {
+            q: "______ the crowded restaurant, we noticed several famous actors quietly sitting beside the large window.",
+            opts: ["(A) Upon entering", "(B) Upon entered", "(C) As soon as entering", "(D) Entered"],
+            ans: 0,
+            zh: "一走進擁擠的餐廳，我們就注意到幾位著名演員安靜地坐在大窗戶旁。"
+        },
+        {
+            q: "______ the difficult examination successfully, many students celebrated happily at nearby cafés after school.",
+            opts: ["(A) As soon as finishing", "(B) On finishing", "(C) Upon finished", "(D) Finished"],
+            ans: 1,
+            zh: "一順利完成艱難的考試，許多學生放學後開心地在附近的咖啡館慶祝。"
+        },
+        {
+            q: "______ the classroom door, she noticed several students secretly eating snacks.",
+            opts: ["(A) As soon as the teacher opened", "(B) Upon the teacher opened", "(C) As soon as opening", "(D) On open"],
+            ans: 0,
+            zh: "老師一打開教室門，就注意到幾個學生在偷偷吃零食。"
+        },
+        {
+            q: "______ the injured puppy beside the road, my younger sister contacted an animal rescue center immediately.",
+            opts: ["(A) Upon saw", "(B) As soon as seeing", "(C) Upon seeing", "(D) Saw"],
+            ans: 2,
+            zh: "一看到路邊受傷的小狗，我妹妹立刻聯繫了動物救援中心。"
+        },
+        {
+            q: "______, participants proudly received certificates recognizing their community service efforts.",
+            opts: ["(A) On completed the volunteer training course", "(B) As soon as completing the volunteer training course", "(C) On completing the volunteer training course", "(D) Upon they complete the volunteer training course"],
+            ans: 2,
+            zh: "一完成志工培訓課程，參與者自豪地領取了表彰他們社區服務努力的證書。"
+        },
+        {
+            q: "______, he realized he needed improvement.",
+            opts: ["(A) As soon as the student read his disappointing test results carefully", "(B) Upon the student read his disappointing test results carefully", "(C) On read his disappointing test results carefully", "(D) As soon as read his disappointing test results carefully"],
+            ans: 0,
+            zh: "這位學生一仔細看完令人失望的考試成績，就意識到自己需要改進。"
+        },
+        {
+            q: "______ the mountain summit successfully, the exhausted hikers admired the breathtaking sunrise together silently.",
+            opts: ["(A) Reached", "(B) Upon reaching", "(C) As soon as reached", "(D) On reach"],
+            ans: 1,
+            zh: "一成功抵達山頂，筋疲力盡的登山客們便一起靜靜地欣賞令人屏息的日出。"
+        },
+        {
+            q: "______ the exciting announcement, several audience members started cheering loudly during the opening ceremony.",
+            opts: ["(A) Hear", "(B) On heard", "(C) On hearing", "(D) As soon as hearing"],
+            ans: 2,
+            zh: "一聽到這個令人興奮的宣布，幾位觀眾在開幕式上開始大聲歡呼。"
+        },
+        {
+            q: "______, staff members reminded them not to photograph exhibits.",
+            opts: ["(A) As soon as tourists entered the museum quietly", "(B) Upon entering the museum quietly", "(C) On entered the museum quietly", "(D) As soon as tourists entering the museum quietly"],
+            ans: 0,
+            zh: "遊客一安靜地進入博物館，工作人員就提醒他們不要對展品拍照。"
+        },
+        {
+            q: "______, my father quickly fell asleep on the living room sofa.",
+            opts: ["(A) As soon as returning home from work exhausted", "(B) Upon returned home from work exhausted", "(C) Upon returning home from work exhausted", "(D) Returned home from work exhausted"],
+            ans: 2,
+            zh: "爸爸下班一回到家筋疲力盡，很快就在客廳沙發上睡著了。"
+        },
+        {
+            q: "______ about the environmental campaign, many teenagers volunteered enthusiastically for weekend beach-cleaning activities.",
+            opts: ["(A) On learning", "(B) Learned", "(C) As soon as learning", "(D) Upon learned"],
+            ans: 0,
+            zh: "一得知這項環保活動，許多青少年熱情地自願參加週末的淨灘活動。"
+        },
+        {
+            q: "______, he gradually recovered and returned to practice.",
+            opts: ["(A) As soon as the injured athlete received medical treatment", "(B) Upon the injured athlete received medical treatment", "(C) On received medical treatment", "(D) As soon as received medical treatment"],
+            ans: 0,
+            zh: "受傷的運動員一接受醫療處理，便逐漸康復並回到練習中。"
+        },
+        {
+            q: "______ the missing wallet suddenly, the traveler contacted airport security officers immediately for assistance.",
+            opts: ["(A) Upon discovering", "(B) Upon discovered", "(C) As soon as discovering", "(D) Discovered"],
+            ans: 0,
+            zh: "一突然發現錢包不見了，旅客立刻聯繫機場安保人員尋求協助。"
+        },
+        {
+            q: "______ the exchange students personally, our classmates discovered many shared hobbies and interests.",
+            opts: ["(A) Met", "(B) On met", "(C) On meeting", "(D) As soon as meeting"],
+            ans: 2,
+            zh: "一親自見到交換學生，我們的同班同學就發現了許多共同的嗜好與興趣。"
+        },
+        {
+            q: "______, they quickly ran into their parents’ bedroom.",
+            opts: ["(A) As soon as several children hearing loud thunder outside", "(B) Upon several children heard loud thunder outside", "(C) As soon as several children heard loud thunder outside", "(D) On heard loud thunder outside"],
+            ans: 2,
+            zh: "幾個孩子一聽到外面巨大的雷聲，就迅速跑進父母的臥室。"
+        },
+        {
+            q: "______ the group presentation successfully, the students warmly thanked one another for their cooperation.",
+            opts: ["(A) Upon finishing", "(B) As soon as finishing", "(C) Finished", "(D) Upon finished"],
+            ans: 0,
+            zh: "一順利完成小組報告，學生們熱情地互相感謝彼此的合作。"
+        },
+        {
+            q: "______ at the concert venue early, many excited fans rushed toward the merchandise stands immediately.",
+            opts: ["(A) As soon as arriving", "(B) On arrived", "(C) Arrived", "(D) On arriving"],
+            ans: 3,
+            zh: "一早抵達演唱會會場，許多興奮的粉絲立刻衝向周邊商品攤位。"
+        }
+    ];
+
+    // Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
+    shuffleArray(questionsData);
+
+    let curIdx = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+
+    function render() {
+        const item = questionsData[curIdx];
+        document.getElementById('progress-label').innerText = `${curIdx + 1} / ${questionsData.length}`;
+        document.getElementById('main-card-inner').classList.remove('is-flipped');
+        
+        const displayQ = item.q.replace(/_+/g, '<span class="blank-text"> </span>');
+        document.getElementById('quiz-stem').innerHTML = displayQ;
+        document.getElementById('back-zh').innerText = item.zh;
+        
+        const optionsArea = document.getElementById('quiz-options');
+        optionsArea.innerHTML = '';
+        item.opts.forEach((optStr, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn' + (userAnswers[curIdx] === optIdx ? ' selected' : '');
+            btn.innerText = optStr;
+            btn.onclick = () => selectOption(optIdx);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('btn-prev').disabled = (curIdx === 0);
+        
+        if (curIdx === questionsData.length - 1) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'block';
+        } else {
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'none';
+        }
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[curIdx] = optIdx;
+        render();
+    }
+
+    function flipCard() {
+        document.getElementById('main-card-inner').classList.toggle('is-flipped');
+    }
+
+    function moveStep(n) {
+        let next = curIdx + n;
+        if (next >= 0 && next < questionsData.length) {
+            curIdx = next;
+            render();
+        }
+    }
+
+    function submitQuiz() {
+        let unanswered = userAnswers.filter(ans => ans === null).length;
+        if (unanswered > 0) {
+            let confirmSubmit = confirm(`你還有 ${unanswered} 題未作答，確定要送出嗎？`);
+            if (!confirmSubmit) return;
+        }
+
+        let correctCount = 0;
+        let reportHTML = '';
+
+        questionsData.forEach((item, index) => {
+            let userAnsIdx = userAnswers[index];
+            let isCorrect = (userAnsIdx === item.ans);
+            if (isCorrect) correctCount++;
+
+            let userAnsStr = userAnsIdx !== null ? item.opts[userAnsIdx] : "（未作答）";
+            let correctAnsStr = item.opts[item.ans];
+            
+            let reviewSent = item.q.replace(/_+/g, `<span class="${isCorrect ? 'text-green' : 'text-red'}"> [ ${userAnsStr} ] </span>`);
+
+            reportHTML += `
+                <div class="result-item">
+                    <div class="review-sent"><b>Q${index + 1}:</b> ${reviewSent}</div>
+                    <div style="font-size:0.95rem; color:#7f8c8d; margin-bottom:10px;">${item.zh}</div>
+                    <div>你的作答：<span class="${isCorrect ? 'text-green' : 'text-red'}">${userAnsStr}</span> ${isCorrect ? '✅' : '❌'}</div>
+                    ${!isCorrect ? `<div>正確答案：<span class="text-green">${correctAnsStr}</span></div>` : ''}
+                </div>
+            `;
+        });
+
+        const rate = Math.round((correctCount / questionsData.length) * 100);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `${rate} 分`;
+        document.getElementById('final-stats').innerText = `答對題數：${correctCount} / ${questionsData.length}`;
+        document.getElementById('report-list-view').innerHTML = reportHTML;
+    }
+
+    window.onload = () => { render(); };
+</script>
+</body>
+</html>
