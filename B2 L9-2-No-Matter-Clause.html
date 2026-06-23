@@ -1,0 +1,425 @@
+---
+title: "龍騰B2 L9-2：No matter wh- / Wh-ever clause"
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文法測驗：No matter wh- / Wh-ever clause</title>
+    <style>
+        :root {
+            --primary: #4a90e2; --primary-dark: #357abd;
+            --success: #2ecc71; --danger: #e74c3c;
+            --bg: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%);
+            --text: #2c3e50; --gold: #f39c12;
+        }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 0; color: var(--text); }
+        #app { width: 95%; max-width: 750px; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        
+        .home-card { background: white; padding: 40px 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .home-card h1 { font-size: 2rem; color: var(--primary); margin: 0 0 10px; font-weight: 800; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(255,255,255,0.9); padding: 15px 25px; border-radius: 20px; }
+        .btn-back-home { background: #95a5a6; color: white; border: none; padding: 8px 18px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-back-home:hover { filter: brightness(0.9); }
+        
+        .card-container { perspective: 1500px; margin-bottom: 20px; }
+        .card-inner { position: relative; width: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; display: flex; min-height: 300px; }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { width: 100%; padding: 30px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .card-back { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #fffdf5; border: 3px solid var(--gold); transform: rotateY(180deg); z-index: 1; }
+        
+        .hint-text { font-size: 0.9rem; color: #95a5a6; margin-bottom: 15px; }
+        .sent-box { font-size: 1.4rem; line-height: 1.6; color: #34495e; text-align: left; }
+        .back-zh-box { font-size: 1.4rem; font-weight: bold; line-height: 1.6; color: var(--primary-dark); }
+        
+        .blank-text { 
+            color: var(--primary); 
+            font-weight: 900; 
+            border-bottom: 3px solid var(--primary);
+            padding: 0 10px;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .opt-btn { background: white; border: 2px solid #eef2f7; padding: 20px; border-radius: 15px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; font-weight: 600; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
+        .opt-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.02); box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); }
+        
+        .nav-bar { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
+        .btn-nav { flex: 1; padding: 18px; border-radius: 20px; border: none; background: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-nav:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-submit { background: var(--gold); color: white; }
+        .btn-submit:hover { background: #e67e22; }
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; width: 85%; max-width: 320px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+
+        .result-list { text-align: left; background: #f8f9fa; border-radius: 20px; padding: 20px; margin-top: 25px; max-height: 500px; overflow-y: auto; }
+        .result-item { border-bottom: 2px solid #ddd; padding: 20px 0; font-size: 1.1rem; }
+        .result-item:last-child { border-bottom: none; }
+        .text-green { color: var(--success); font-weight: bold; }
+        .text-red { color: var(--danger); font-weight: bold; }
+        .review-sent { font-size: 1.2rem; margin-bottom: 10px; color: #34495e; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="quiz-screen" class="screen active">
+        <div class="top-nav" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-back-home" style="background: var(--primary);" onclick="window.location.href='{{ "/" | relative_url }}'">⌂ 返回文法複習主頁面</button>
+                <button class="btn-back-home" onclick="location.reload()">↺ 重新開始</button>
+            </div>
+            <div style="font-weight: 800; color: var(--primary); white-space: nowrap;">Unit 9-2 | 第 <span id="progress-label"></span> 題</div>
+        </div>
+        
+        <div class="card-container" onclick="flipCard()">
+            <div class="card-inner" id="main-card-inner">
+                <div class="card-face card-front">
+                    <div class="hint-text">💡 點擊卡片翻面看中文解釋</div>
+                    <div id="quiz-stem" class="sent-box"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="hint-text" style="color: #d35400;">💡 點擊卡片翻回題目</div>
+                    <div id="back-zh" class="back-zh-box"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quiz-options" class="options-grid"></div>
+
+        <div class="nav-bar">
+            <button id="btn-prev" class="btn-nav" onclick="moveStep(-1)">← 上一題</button>
+            <button id="btn-next" class="btn-nav" onclick="moveStep(1)">下一題 →</button>
+            <button id="btn-submit" class="btn-nav btn-submit" style="display:none;" onclick="submitQuiz()">送出看成績 📝</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="home-card">
+            <h2 id="final-title" style="margin-bottom:20px;">🏆 測驗完成！</h2>
+            <div id="final-score" style="font-size: 3.5rem; color: var(--primary); font-weight: 800; margin: 10px 0;"></div>
+            <p id="final-stats" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px;"></p>
+            <div id="report-list-view" class="result-list"></div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px;">
+                <button class="btn-main" onclick="location.reload()" style="margin: 0;">↺ 再測驗一次</button>
+                <button class="btn-main" onclick="window.location.href='{{ "/" | relative_url }}'" style="margin: 0; background: #95a5a6;">⌂ 返回文法複習主頁面</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            q: "No matter ______, my classmates continue studying hard every evening after school.",
+            opts: [
+                "(A) how difficult the final examination becomes", 
+                "(B) how difficult does the final examination become", 
+                "(C) how the final examination becomes difficult", 
+                "(D) what difficult the final examination becomes"
+            ],
+            ans: 0, 
+            zh: "無論期末考變得多麼困難，我的同學們每天放學後晚上依然繼續努力學習。"
+        },
+        {
+            q: "______, unexpected technical problems still interrupted their presentation yesterday morning.",
+            opts: [
+                "(A) No matter how the students prepared carefully beforehand", 
+                "(B) However carefully the students prepared beforehand", 
+                "(C) Whatever carefully the students prepared beforehand", 
+                "(D) However carefully did the students prepare beforehand"
+            ],
+            ans: 1, 
+            zh: "無論學生們事先準備得多麼仔細，昨天早上意想不到的技術問題仍然中斷了他們的報告。"
+        },
+        {
+            q: "No matter ______ wins the student council election tomorrow, teachers expect everyone to cooperate respectfully afterward.",
+            opts: ["(A) whoever", "(B) whom", "(C) who", "(D) that"],
+            ans: 2,
+            zh: "無論明天誰贏得學生會選舉，老師們都期望之後大家能互相尊重並合作。"
+        },
+        {
+            q: "______ in the volunteer program gains valuable experience helping children from different cultural backgrounds.",
+            opts: [
+                "(A) Whoever participate", 
+                "(B) No matter who participates", 
+                "(C) Who does participate", 
+                "(D) Whoever participates"
+            ],
+            ans: 3,
+            zh: "凡是參與這項志工計畫的人，都能獲得幫助來自不同文化背景兒童的寶貴經驗。"
+        },
+        {
+            q: "No matter where tourists travel throughout Taiwan, ______.",
+            opts: [
+                "(A) they usually discover delicious local snacks and historical attractions", 
+                "(B) usually discover delicious local snacks and historical attractions", 
+                "(C) local snacks and historical attractions are usually discovered", 
+                "(D) do they usually discover delicious local snacks and historical attractions"
+            ],
+            ans: 0,
+            zh: "無論遊客在台灣各地哪裡旅行，他們通常都能發現美味的當地小吃和歷史景點。"
+        },
+        {
+            q: "______ my grandparents travel during holidays, they always purchase souvenirs for younger family members waiting at home.",
+            opts: ["(A) No matter where do", "(B) Wherever", "(C) Where", "(D) Whichever"],
+            ans: 1,
+            zh: "無論我的祖父母在假期去哪裡旅行，他們總是會為在家等候的年輕家庭成員購買紀念品。"
+        },
+        {
+            q: "No matter ______, the manager still expects projects to be completed on time.",
+            opts: [
+                "(A) what excuses does he give repeatedly", 
+                "(B) what does he give excuses repeatedly", 
+                "(C) what excuses he gives repeatedly", 
+                "(D) that excuses he gives repeatedly"
+            ],
+            ans: 2,
+            zh: "無論他一再給出什麼藉口，經理仍然期望專案能按時完成。"
+        },
+        {
+            q: "______ international students experience initially, supportive classmates often help them adjust gradually afterward.",
+            opts: [
+                "(A) No matter what do difficulties", 
+                "(B) However difficulties", 
+                "(C) That difficulties", 
+                "(D) Whatever difficulties"
+            ],
+            ans: 3,
+            zh: "無論國際學生最初經歷什麼困難，給予支持的同學們通常會幫助他們之後逐漸適應。"
+        },
+        {
+            q: "No matter ______, enthusiastic fans will continue waiting patiently outside together.",
+            opts: [
+                "(A) when the concert officially begins tonight", 
+                "(B) when does the concert officially begin tonight", 
+                "(C) when will the concert officially begin tonight", 
+                "(D) that the concert officially begins tonight"
+            ],
+            ans: 0,
+            zh: "無論今晚演唱會何時正式開始，熱情的粉絲們都會繼續一起在外面耐心等待。"
+        },
+        {
+            q: "Whenever my younger brother feels stressed about examinations, ______.",
+            opts: [
+                "(A) quietly he is listening to classical music before studying", 
+                "(B) he quietly listens to classical music before studying", 
+                "(C) to quietly listen to classical music before studying", 
+                "(D) he quietly listen to classical music before studying"
+            ],
+            ans: 1,
+            zh: "每當我的弟弟對考試感到有壓力時，他會在讀書前安靜地聽古典音樂。"
+        },
+        {
+            q: "No matter ______ university she chooses eventually, her parents will continue supporting her future educational goals.",
+            opts: ["(A) whichever", "(B) that", "(C) which", "(D) where"],
+            ans: 2,
+            zh: "無論她最終選擇哪一所大學，她的父母都將繼續支持她未來的教育目標。"
+        },
+        {
+            q: "______ near the station tonight, my younger sister will probably order noodle soup.",
+            opts: [
+                "(A) Which restaurant do we visit", 
+                "(B) No matter whichever restaurant we visit", 
+                "(C) Whatever restaurant do we visit", 
+                "(D) Whichever restaurant we visit"
+            ],
+            ans: 3,
+            zh: "無論我們今晚去車站附近哪一家餐廳，我妹妹可能都會點湯麵。"
+        },
+        {
+            q: "No matter ______ during the championship game, the nervous athlete stayed focused.",
+            opts: [
+                "(A) how loudly the audience cheered", 
+                "(B) how loudly did the audience cheer", 
+                "(C) how the audience cheered loudly", 
+                "(D) how loud did the audience cheer"
+            ],
+            ans: 0,
+            zh: "無論冠軍賽期間觀眾的歡呼聲有多大，這位緊張的運動員依然保持專注。"
+        },
+        {
+            q: "______ tired my mother feels after work every evening, she still prepares homemade dinner patiently.",
+            opts: ["(A) No matter however", "(B) However", "(C) Whatever", "(D) That"],
+            ans: 1,
+            zh: "無論每天傍晚下班後我母親覺得有多累，她仍然耐心地準備家常晚餐。"
+        },
+        {
+            q: "No matter ______ volunteers to lead tomorrow’s discussion, the teacher expects active participation from everyone.",
+            opts: ["(A) whoever", "(B) whom", "(C) who", "(D) that"],
+            ans: 2,
+            zh: "無論誰自願帶領明天的討論，老師都期望每個人能積極參與。"
+        },
+        {
+            q: "______ to submit the final assignment before Friday must explain the situation afterward personally.",
+            opts: [
+                "(A) Whoever forget", 
+                "(B) No matter who does forget", 
+                "(C) Who does forget", 
+                "(D) Whoever forgets"
+            ],
+            ans: 3,
+            zh: "凡是忘記在週五前繳交期末作業的人，之後都必須親自解釋情況。"
+        },
+        {
+            q: "No matter ______, local residents usually participate enthusiastically and help immediately.",
+            opts: [
+                "(A) where volunteers organize beach-cleaning activities", 
+                "(B) where do volunteers organize beach-cleaning activities", 
+                "(C) that volunteers organize beach-cleaning activities", 
+                "(D) where volunteers organizing beach-cleaning activities"
+            ],
+            ans: 0,
+            zh: "無論志工在哪裡舉辦淨灘活動，當地居民通常都會熱情參與並立即幫忙。"
+        },
+        {
+            q: "Wherever the exchange students travel during weekends, ______.",
+            opts: [
+                "(A) enjoying to photograph traditional buildings and busy markets", 
+                "(B) they enjoy photographing traditional buildings and busy markets", 
+                "(C) do they enjoy photographing traditional buildings and busy markets", 
+                "(D) enjoy photographing traditional buildings and busy markets"
+            ],
+            ans: 1,
+            zh: "無論交換學生週末去哪裡旅行，他們都喜歡拍攝傳統建築和繁忙的市場。"
+        },
+        {
+            q: "No matter ______, she continues sharing creative ideas confidently.",
+            opts: [
+                "(A) what does the young artist receive criticism online", 
+                "(B) what criticism does the young artist receive online", 
+                "(C) what criticism the young artist receives online", 
+                "(D) that criticism the young artist receives online"
+            ],
+            ans: 2,
+            zh: "無論這位年輕藝術家在網路上收到什麼批評，她依然自信地分享創意想法。"
+        },
+        {
+            q: "______ teenagers encounter during adolescence, emotional support often helps them overcome stressful situations.",
+            opts: [
+                "(A) No matter whatever challenges", 
+                "(B) What challenges do", 
+                "(C) However challenges", 
+                "(D) Whatever challenges"
+            ],
+            ans: 3,
+            zh: "青少年在青春期無論遇到什麼挑戰，情感上的支持通常能幫助他們克服充滿壓力的情況。"
+        }
+    ];
+
+    // 新增：Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
+    shuffleArray(questionsData);
+
+    let curIdx = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+
+    function render() {
+        const item = questionsData[curIdx];
+        document.getElementById('progress-label').innerText = `${curIdx + 1} / ${questionsData.length}`;
+        document.getElementById('main-card-inner').classList.remove('is-flipped');
+        
+        const displayQ = item.q.replace(/_+/g, '<span class="blank-text"> </span>');
+        document.getElementById('quiz-stem').innerHTML = displayQ;
+        document.getElementById('back-zh').innerText = item.zh;
+        
+        const optionsArea = document.getElementById('quiz-options');
+        optionsArea.innerHTML = '';
+        item.opts.forEach((optStr, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn' + (userAnswers[curIdx] === optIdx ? ' selected' : '');
+            btn.innerText = optStr;
+            btn.onclick = () => selectOption(optIdx);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('btn-prev').disabled = (curIdx === 0);
+        
+        if (curIdx === questionsData.length - 1) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'block';
+        } else {
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'none';
+        }
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[curIdx] = optIdx;
+        render();
+    }
+
+    function flipCard() {
+        document.getElementById('main-card-inner').classList.toggle('is-flipped');
+    }
+
+    function moveStep(n) {
+        let next = curIdx + n;
+        if (next >= 0 && next < questionsData.length) {
+            curIdx = next;
+            render();
+        }
+    }
+
+    function submitQuiz() {
+        let unanswered = userAnswers.filter(ans => ans === null).length;
+        if (unanswered > 0) {
+            let confirmSubmit = confirm(`你還有 ${unanswered} 題未作答，確定要送出嗎？`);
+            if (!confirmSubmit) return;
+        }
+
+        let correctCount = 0;
+        let reportHTML = '';
+
+        questionsData.forEach((item, index) => {
+            let userAnsIdx = userAnswers[index];
+            let isCorrect = (userAnsIdx === item.ans);
+            if (isCorrect) correctCount++;
+
+            let userAnsStr = userAnsIdx !== null ? item.opts[userAnsIdx] : "（未作答）";
+            let correctAnsStr = item.opts[item.ans];
+            
+            let reviewSent = item.q.replace(/_+/g, `<span class="${isCorrect ? 'text-green' : 'text-red'}"> [ ${userAnsStr} ] </span>`);
+
+            reportHTML += `
+                <div class="result-item">
+                    <div class="review-sent"><b>Q${index + 1}:</b> ${reviewSent}</div>
+                    <div style="font-size:0.95rem; color:#7f8c8d; margin-bottom:10px;">${item.zh}</div>
+                    <div>你的作答：<span class="${isCorrect ? 'text-green' : 'text-red'}">${userAnsStr}</span> ${isCorrect ? '✅' : '❌'}</div>
+                    ${!isCorrect ? `<div>正確答案：<span class="text-green">${correctAnsStr}</span></div>` : ''}
+                </div>
+            `;
+        });
+
+        const rate = Math.round((correctCount / questionsData.length) * 100);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `${rate} 分`;
+        document.getElementById('final-stats').innerText = `答對題數：${correctCount} / ${questionsData.length}`;
+        document.getElementById('report-list-view').innerHTML = reportHTML;
+    }
+
+    window.onload = () => { render(); };
+</script>
+</body>
+</html>
