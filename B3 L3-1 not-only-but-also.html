@@ -1,0 +1,350 @@
+---
+title: "龍騰B3 L3-1：not only ... but also ..."
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文法測驗：L3-1 not only ... but also ...</title>
+    <style>
+        :root {
+            --primary: #4a90e2; --primary-dark: #357abd;
+            --success: #2ecc71; --danger: #e74c3c;
+            --bg: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%);
+            --text: #2c3e50; --gold: #f39c12;
+        }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 0; color: var(--text); }
+        #app { width: 95%; max-width: 750px; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        
+        .home-card { background: white; padding: 40px 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .home-card h1 { font-size: 2rem; color: var(--primary); margin: 0 0 10px; font-weight: 800; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(255,255,255,0.9); padding: 15px 25px; border-radius: 20px; }
+        .btn-back-home { background: #95a5a6; color: white; border: none; padding: 8px 18px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-back-home:hover { filter: brightness(0.9); }
+        
+        .card-container { perspective: 1500px; margin-bottom: 20px; }
+        .card-inner { position: relative; width: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; display: flex; min-height: 300px; }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { width: 100%; padding: 30px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .card-back { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #fffdf5; border: 3px solid var(--gold); transform: rotateY(180deg); z-index: 1; }
+        
+        .hint-text { font-size: 0.9rem; color: #95a5a6; margin-bottom: 15px; }
+        .sent-box { font-size: 1.4rem; line-height: 1.6; color: #34495e; text-align: left; }
+        .back-zh-box { font-size: 1.4rem; font-weight: bold; line-height: 1.6; color: var(--primary-dark); }
+        
+        .blank-text { 
+            color: var(--primary); 
+            font-weight: 900; 
+            border-bottom: 3px solid var(--primary);
+            padding: 0 10px;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .opt-btn { background: white; border: 2px solid #eef2f7; padding: 20px; border-radius: 15px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; font-weight: 600; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
+        .opt-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.02); box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); }
+        
+        .nav-bar { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
+        .btn-nav { flex: 1; padding: 18px; border-radius: 20px; border: none; background: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-nav:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-submit { background: var(--gold); color: white; }
+        .btn-submit:hover { background: #e67e22; }
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; width: 85%; max-width: 320px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+
+        .result-list { text-align: left; background: #f8f9fa; border-radius: 20px; padding: 20px; margin-top: 25px; max-height: 500px; overflow-y: auto; }
+        .result-item { border-bottom: 2px solid #ddd; padding: 20px 0; font-size: 1.1rem; }
+        .result-item:last-child { border-bottom: none; }
+        .text-green { color: var(--success); font-weight: bold; }
+        .text-red { color: var(--danger); font-weight: bold; }
+        .review-sent { font-size: 1.2rem; margin-bottom: 10px; color: #34495e; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="quiz-screen" class="screen active">
+        <div class="top-nav" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-back-home" style="background: var(--primary);" onclick="window.location.href='{{ "/" | relative_url }}'">⌂ 返回文法複習主頁面</button>
+                <button class="btn-back-home" onclick="location.reload()">↺ 重新開始</button>
+            </div>
+            <div style="font-weight: 800; color: var(--primary); white-space: nowrap;">Unit L3-1 | 第 <span id="progress-label"></span> 題</div>
+        </div>
+        
+        <div class="card-container" onclick="flipCard()">
+            <div class="card-inner" id="main-card-inner">
+                <div class="card-face card-front">
+                    <div class="hint-text">💡 點擊卡片翻面看中文解釋</div>
+                    <div id="quiz-stem" class="sent-box"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="hint-text" style="color: #d35400;">💡 點擊卡片翻回題目</div>
+                    <div id="back-zh" class="back-zh-box"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quiz-options" class="options-grid"></div>
+
+        <div class="nav-bar">
+            <button id="btn-prev" class="btn-nav" onclick="moveStep(-1)">← 上一題</button>
+            <button id="btn-next" class="btn-nav" onclick="moveStep(1)">下一題 →</button>
+            <button id="btn-submit" class="btn-nav btn-submit" style="display:none;" onclick="submitQuiz()">送出看成績 📝</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="home-card">
+            <h2 id="final-title" style="margin-bottom:20px;">🏆 測驗完成！</h2>
+            <div id="final-score" style="font-size: 3.5rem; color: var(--primary); font-weight: 800; margin: 10px 0;"></div>
+            <p id="final-stats" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px;"></p>
+            <div id="report-list-view" class="result-list"></div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px;">
+                <button class="btn-main" onclick="location.reload()" style="margin: 0;">↺ 再測驗一次</button>
+                <button class="btn-main" onclick="window.location.href='{{ "/" | relative_url }}'" style="margin: 0; background: #95a5a6;">⌂ 返回文法複習主頁面</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            q: "Not only the teacher but also the students ______ extra materials for tomorrow’s environmental science exhibition at school.",
+            opts: ["(A) is preparing", "(B) are preparing", "(C) prepares", "(D) has prepared"],
+            ans: 1, 
+            zh: "不僅老師，學生們也正在為明天學校的環境科學展覽準備額外的材料。"
+        },
+        {
+            q: "______ not only the students but also their teacher attending the weekend workshop on digital storytelling and classroom technology?",
+            opts: ["(A) Is", "(B) Are", "(C) Do", "(D) Does"],
+            ans: 1, 
+            zh: "不僅學生們，他們的老師也參加了關於數位說故事和課堂科技的週末工作坊嗎？"
+        },
+        {
+            q: "Not only my brother but also my parents ______ watching documentaries about history and culture together after dinner on weekends.",
+            opts: ["(A) enjoys", "(B) enjoy", "(C) enjoying", "(D) to enjoy"],
+            ans: 1,
+            zh: "週末晚餐後，不僅我哥哥，我父母也喜歡一起觀看關於歷史和文化的紀錄片。"
+        },
+        {
+            q: "______ not only my parents but also my brother enjoy cooking traditional dishes for relatives whenever our extended family gathers together?",
+            opts: ["(A) Do", "(B) Does", "(C) Are", "(D) Is"],
+            ans: 0,
+            zh: "每當我們大家族聚在一起時，不僅我父母，我哥哥也喜歡為親戚們烹調傳統菜餚嗎？"
+        },
+        {
+            q: "Not only the manager but also her assistants ______ safety procedures before the factory begins operating next week.",
+            opts: ["(A) has reviewed", "(B) have reviewed", "(C) having reviewed", "(D) is reviewing"],
+            ans: 1,
+            zh: "在下週工廠開始營運之前，不僅經理，她的助理們也已經審查了安全程序。"
+        },
+        {
+            q: "______ not only the volunteers but also the team leader organized transportation for elderly residents attending tomorrow’s community health event?",
+            opts: ["(A) Has", "(B) Have", "(C) Did", "(D) Do"],
+            ans: 1,
+            zh: "不僅志工們，小隊長也已經為參加明天社區健康活動的年長居民安排了交通工具嗎？"
+        },
+        {
+            q: "Not only several local businesses but also the city government ______ the campaign encouraging residents to reduce single-use plastic products.",
+            opts: ["(A) support", "(B) supports", "(C) supporting", "(D) to support"],
+            ans: 1,
+            zh: "不僅幾家當地企業，市政府也支持鼓勵居民減少使用一次性塑膠產品的活動。"
+        },
+        {
+            q: "Not only my classmates but also I ______ responsible for preparing the equipment before tomorrow’s important science presentation at school.",
+            opts: ["(A) is", "(B) are", "(C) am", "(D) be"],
+            ans: 2,
+            zh: "不僅我的同學們，我也負責在明天學校重要的科學發表會之前準備設備。"
+        },
+        {
+            q: "The new library is not only comfortable but also ______, located near several bus stops and subway entrances.",
+            opts: ["(A) convenience", "(B) convenient", "(C) conveniently", "(D) useless"],
+            ans: 1,
+            zh: "這座新圖書館不僅舒適而且便利，位於幾個公車站和地鐵入口附近。"
+        },
+        {
+            q: "The documentary was not only ______ but also powerful in conveying emotions, encouraging viewers to reconsider their everyday choices about plastic consumption.",
+            opts: ["(A) information", "(B) inform", "(C) informative", "(D) boring"],
+            ans: 2,
+            zh: "這部紀錄片不僅資訊豐富，在傳達情感方面也很有感染力，鼓勵觀眾重新思考他們日常的塑膠消費選擇。"
+        },
+        {
+            q: "The athlete responded not only calmly but also ______ when reporters questioned her about the controversial decision after the match.",
+            opts: ["(A) respectful", "(B) respect", "(C) respectfully", "(D) rude"],
+            ans: 2,
+            zh: "當記者在賽後就爭議性判決向這名運動員提問時，她不僅冷靜而且恭敬地作出了回應。"
+        },
+        {
+            q: "Our teacher explained the difficult concept not only ______ but also patiently, allowing confused students to follow each step.",
+            opts: ["(A) clear", "(B) clearly", "(C) cleared", "(D) confusingly"],
+            ans: 1,
+            zh: "我們的老師不僅清楚而且有耐心地解釋了這個困難的概念，讓困惑的學生能夠跟上每一個步驟。"
+        },
+        {
+            q: "The internship provided not only valuable work experience but also ______ that students could use in future careers.",
+            opts: ["(A) practically communicate", "(B) practical communication skills", "(C) communicate practically", "(D) terrible working hours"],
+            ans: 1,
+            zh: "這次實習不僅提供了寶貴的工作經驗，還提供了學生在未來職涯中可以使用的實用溝通技巧。"
+        },
+        {
+            q: "The storm caused not only ______ but also widespread transportation problems across several coastal communities last weekend.",
+            opts: ["(A) serious property damage", "(B) damaged property seriously", "(C) seriously property damaged", "(D) beautiful scenery"],
+            ans: 0,
+            zh: "上週末，這場風暴不僅造成了嚴重的財產損失，還在幾個沿海社區造成了廣泛的交通問題。"
+        },
+        {
+            q: "Students can participate not only in classroom discussions but also ______ that connect academic learning with real problems.",
+            opts: ["(A) community projects", "(B) in community projects", "(C) to community projects", "(D) dangerous activities"],
+            ans: 1,
+            zh: "學生不僅可以參與課堂討論，還可以參與將學術學習與實際問題連結起來的社區計畫。"
+        },
+        {
+            q: "The company invests ______ but in employee training programs designed to improve long-term workplace safety.",
+            opts: ["(A) not only renewable energy", "(B) not only to renewable energy", "(C) only not in renewable energy", "(D) only fossil fuels"],
+            ans: 2,
+            zh: "該公司不僅投資於再生能源，還投資於旨在改善長期職場安全的員工培訓計畫。"
+        },
+        {
+            q: "The course teaches students not only to analyze reliable sources but also ______ clearly in academic writing.",
+            opts: ["(A) explain their conclusions", "(B) to explain their conclusions", "(C) explaining their conclusions", "(D) to forget their conclusions"],
+            ans: 1,
+            zh: "這門課程不僅教導學生分析可靠的來源，還教導他們在學術寫作中清楚地解釋他們的結論。"
+        },
+        {
+            q: "She is interested not only in learning foreign languages but also ______ how cultural differences influence everyday communication.",
+            opts: ["(A) understanding", "(B) to understand", "(C) in understanding", "(D) in ignore"],
+            ans: 2,
+            zh: "她不僅對學習外語感興趣，還對了解文化差異如何影響日常溝通感興趣。"
+        },
+        {
+            q: "The museum attracts visitors not only because its collection is extensive but also ______ appeal to children.",
+            opts: ["(A) its interactive exhibits", "(B) because its interactive exhibits", "(C) because of its interactive exhibits", "(D) because its tickets are expensive"],
+            ans: 1,
+            zh: "這家博物館之所以吸引遊客，不僅因為其館藏豐富，也因為其互動式展覽對兒童很有吸引力。"
+        },
+        {
+            q: "Parents often become concerned ______ but also when their sleep habits begin changing.",
+            opts: ["(A) not only teenagers stay online too late", "(B) not only when teenagers stay online too late", "(C) not only during teenagers staying online", "(D) not only when teenagers study hard"],
+            ans: 1,
+            zh: "父母經常會感到擔憂，不僅當青少年上網到太晚時，還有當他們的睡眠習慣開始改變時。"
+        }
+    ];
+
+    // Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
+    shuffleArray(questionsData);
+
+    let curIdx = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+
+    function render() {
+        const item = questionsData[curIdx];
+        document.getElementById('progress-label').innerText = `${curIdx + 1} / ${questionsData.length}`;
+        document.getElementById('main-card-inner').classList.remove('is-flipped');
+        
+        const displayQ = item.q.replace(/_+/g, '<span class="blank-text"> </span>');
+        document.getElementById('quiz-stem').innerHTML = displayQ;
+        document.getElementById('back-zh').innerText = item.zh;
+        
+        const optionsArea = document.getElementById('quiz-options');
+        optionsArea.innerHTML = '';
+        item.opts.forEach((optStr, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn' + (userAnswers[curIdx] === optIdx ? ' selected' : '');
+            btn.innerText = optStr;
+            btn.onclick = () => selectOption(optIdx);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('btn-prev').disabled = (curIdx === 0);
+        
+        if (curIdx === questionsData.length - 1) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'block';
+        } else {
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'none';
+        }
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[curIdx] = optIdx;
+        render();
+    }
+
+    function flipCard() {
+        document.getElementById('main-card-inner').classList.toggle('is-flipped');
+    }
+
+    function moveStep(n) {
+        let next = curIdx + n;
+        if (next >= 0 && next < questionsData.length) {
+            curIdx = next;
+            render();
+        }
+    }
+
+    function submitQuiz() {
+        let unanswered = userAnswers.filter(ans => ans === null).length;
+        if (unanswered > 0) {
+            let confirmSubmit = confirm(`你還有 ${unanswered} 題未作答，確定要送出嗎？`);
+            if (!confirmSubmit) return;
+        }
+
+        let correctCount = 0;
+        let reportHTML = '';
+
+        questionsData.forEach((item, index) => {
+            let userAnsIdx = userAnswers[index];
+            let isCorrect = (userAnsIdx === item.ans);
+            if (isCorrect) correctCount++;
+
+            let userAnsStr = userAnsIdx !== null ? item.opts[userAnsIdx] : "（未作答）";
+            let correctAnsStr = item.opts[item.ans];
+            
+            let reviewSent = item.q.replace(/_+/g, `<span class="${isCorrect ? 'text-green' : 'text-red'}"> [ ${userAnsStr} ] </span>`);
+
+            reportHTML += `
+                <div class="result-item">
+                    <div class="review-sent"><b>Q${index + 1}:</b> ${reviewSent}</div>
+                    <div style="font-size:0.95rem; color:#7f8c8d; margin-bottom:10px;">${item.zh}</div>
+                    <div>你的作答：<span class="${isCorrect ? 'text-green' : 'text-red'}">${userAnsStr}</span> ${isCorrect ? '✅' : '❌'}</div>
+                    ${!isCorrect ? `<div>正確答案：<span class="text-green">${correctAnsStr}</span></div>` : ''}
+                </div>
+            `;
+        });
+
+        const rate = Math.round((correctCount / questionsData.length) * 100);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `${rate} 分`;
+        document.getElementById('final-stats').innerText = `答對題數：${correctCount} / ${questionsData.length}`;
+        document.getElementById('report-list-view').innerHTML = reportHTML;
+    }
+
+    window.onload = () => { render(); };
+</script>
+</body>
+</html>
