@@ -1,0 +1,350 @@
+---
+title: "龍騰B2 L4：Reporting Verbs 報導句型"
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文法測驗：It is said/believed/reported that...</title>
+    <style>
+        :root {
+            --primary: #4a90e2; --primary-dark: #357abd;
+            --success: #2ecc71; --danger: #e74c3c;
+            --bg: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%);
+            --text: #2c3e50; --gold: #f39c12;
+        }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 0; color: var(--text); }
+        #app { width: 95%; max-width: 750px; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        
+        .home-card { background: white; padding: 40px 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .home-card h1 { font-size: 2rem; color: var(--primary); margin: 0 0 10px; font-weight: 800; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(255,255,255,0.9); padding: 15px 25px; border-radius: 20px; }
+        .btn-back-home { background: #95a5a6; color: white; border: none; padding: 8px 18px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-back-home:hover { filter: brightness(0.9); }
+        
+        .card-container { perspective: 1500px; margin-bottom: 20px; }
+        .card-inner { position: relative; width: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; display: flex; min-height: 300px; }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { width: 100%; padding: 30px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .card-back { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #fffdf5; border: 3px solid var(--gold); transform: rotateY(180deg); z-index: 1; }
+        
+        .hint-text { font-size: 0.9rem; color: #95a5a6; margin-bottom: 15px; }
+        .sent-box { font-size: 1.3rem; line-height: 1.6; color: #34495e; text-align: left; }
+        .back-zh-box { font-size: 1.3rem; font-weight: bold; line-height: 1.6; color: var(--primary-dark); }
+        
+        .blank-text { 
+            color: var(--primary); 
+            font-weight: 900; 
+            border-bottom: 3px solid var(--primary);
+            padding: 0 10px;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .opt-btn { background: white; border: 2px solid #eef2f7; padding: 20px; border-radius: 15px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; font-weight: 600; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
+        .opt-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.02); box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); }
+        
+        .nav-bar { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
+        .btn-nav { flex: 1; padding: 18px; border-radius: 20px; border: none; background: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-nav:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-submit { background: var(--gold); color: white; }
+        .btn-submit:hover { background: #e67e22; }
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; width: 85%; max-width: 320px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+
+        .result-list { text-align: left; background: #f8f9fa; border-radius: 20px; padding: 20px; margin-top: 25px; max-height: 500px; overflow-y: auto; }
+        .result-item { border-bottom: 2px solid #ddd; padding: 20px 0; font-size: 1.1rem; }
+        .result-item:last-child { border-bottom: none; }
+        .text-green { color: var(--success); font-weight: bold; }
+        .text-red { color: var(--danger); font-weight: bold; }
+        .review-sent { font-size: 1.2rem; margin-bottom: 10px; color: #34495e; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="quiz-screen" class="screen active">
+        <div class="top-nav" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-back-home" style="background: var(--primary);" onclick="window.location.href='{{ "/" | relative_url }}'">⌂ 返回文法複習主頁面</button>
+                <button class="btn-back-home" onclick="location.reload()">↺ 重新開始</button>
+            </div>
+            <div style="font-weight: 800; color: var(--primary); white-space: nowrap;">報導句型 | 第 <span id="progress-label"></span> 題</div>
+        </div>
+        
+        <div class="card-container" onclick="flipCard()">
+            <div class="card-inner" id="main-card-inner">
+                <div class="card-face card-front">
+                    <div class="hint-text">💡 點擊卡片翻面看中文解釋</div>
+                    <div id="quiz-stem" class="sent-box"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="hint-text" style="color: #d35400;">💡 點擊卡片翻回題目</div>
+                    <div id="back-zh" class="back-zh-box"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quiz-options" class="options-grid"></div>
+
+        <div class="nav-bar">
+            <button id="btn-prev" class="btn-nav" onclick="moveStep(-1)">← 上一題</button>
+            <button id="btn-next" class="btn-nav" onclick="moveStep(1)">下一題 →</button>
+            <button id="btn-submit" class="btn-nav btn-submit" style="display:none;" onclick="submitQuiz()">送出看成績 📝</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="home-card">
+            <h2 id="final-title" style="margin-bottom:20px;">🏆 測驗完成！</h2>
+            <div id="final-score" style="font-size: 3.5rem; color: var(--primary); font-weight: 800; margin: 10px 0;"></div>
+            <p id="final-stats" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px;"></p>
+            <div id="report-list-view" class="result-list"></div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px;">
+                <button class="btn-main" onclick="location.reload()" style="margin: 0;">↺ 再測驗一次</button>
+                <button class="btn-main" onclick="window.location.href='{{ "/" | relative_url }}'" style="margin: 0; background: #95a5a6;">⌂ 返回文法複習主頁面</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            q: "The singer ______ a large part of her prize money to several local children's charities.",
+            opts: ["(A) is said to have donated", "(B) says to donate", "(C) is said that she donates", "(D) is saying to donate"],
+            ans: 0, 
+            zh: "據說這位歌手將她一大部分的獎金捐給了幾個當地的兒童慈善機構。"
+        },
+        {
+            q: "______ regular exercise improves concentration and reduces stress among students preparing for important examinations.",
+            opts: ["(A) It believes that", "(B) Regular exercise is believed that", "(C) It is believed that", "(D) That is believed"],
+            ans: 2, 
+            zh: "人們相信，規律的運動能提高準備重要考試的學生的注意力並減輕壓力。"
+        },
+        {
+            q: "The ancient bridge is believed ______ several major earthquakes without requiring extensive repairs over the past century.",
+            opts: ["(A) to survive", "(B) that it survives", "(C) surviving", "(D) to have survived"],
+            ans: 3,
+            zh: "這座古老的橋樑被認為在過去的一個世紀裡挺過了幾次大地震，而不需要大規模的修復。"
+        },
+        {
+            q: "The company ______ a cheaper electric bicycle designed specifically for commuters before the holiday season.",
+            opts: ["(A) expects to be launched", "(B) is expected to launch", "(C) is expected that it launches", "(D) expected to launching"],
+            ans: 1,
+            zh: "這家公司預計在假期前推出一款專為通勤者設計、價格較便宜的電動自行車。"
+        },
+        {
+            q: "The rescued hikers were reported ______ two nights in an empty cabin before emergency workers located them.",
+            opts: ["(A) to spend", "(B) to be spent", "(C) to have spent", "(D) spending"],
+            ans: 2,
+            zh: "據報導，獲救的登山客在救援人員找到他們之前，在一間空小木屋裡度過了兩個晚上。"
+        },
+        {
+            q: "______ several schools have introduced later starting times to help teenagers get enough sleep.",
+            opts: ["(A) They are reported that", "(B) It is reported that", "(C) Several schools are reported to", "(D) It reports that"],
+            ans: 1,
+            zh: "據報導，幾所學校已經延後上學時間，以幫助青少年獲得足夠的睡眠。"
+        },
+        {
+            q: "The new library is known ______ free language classes for adults who recently moved into the neighborhood.",
+            opts: ["(A) providing", "(B) that it provides", "(C) to provide", "(D) to be provided"],
+            ans: 2,
+            zh: "眾所皆知，這間新圖書館為最近搬到這社區的成年人提供免費的語言課程。"
+        },
+        {
+            q: "The missing documents ______ somewhere in the old storage room behind the main office.",
+            opts: ["(A) are thought to be", "(B) thought that they are", "(C) are thinking to be", "(D) it is thought to be"],
+            ans: 0,
+            zh: "遺失的文件被認為在主辦公室後面的舊儲藏室裡的某個地方。"
+        },
+        {
+            q: "The famous actor is ______ to be considering a return to theater after several years of working in television.",
+            opts: ["(A) demanded", "(B) commanded", "(C) believed", "(D) influenced"],
+            ans: 2,
+            zh: "這位著名演員在電視圈工作幾年後，被認為正在考慮重返舞台劇。"
+        },
+        {
+            q: "It is said ______ the local bakery uses a family recipe passed down through three generations of cooks.",
+            opts: ["(A) what", "(B) which", "(C) that", "(D) to"],
+            ans: 2,
+            zh: "據說這家當地麵包店使用傳承了三代廚師的家族食譜。"
+        },
+        {
+            q: "The museum ______ thousands of visitors when its new exhibition opens early next spring.",
+            opts: ["(A) expects that it attracts", "(B) is expecting to attracting", "(C) expects to be attracted", "(D) is expected to attract"],
+            ans: 3,
+            zh: "這間博物館預計在明年初春新展覽開幕時，將吸引成千上萬的遊客。"
+        },
+        {
+            q: "The scientist is reported to have ______ an unusual species of frog while conducting research in a remote forest.",
+            opts: ["(A) discovered", "(B) invented", "(C) recovered", "(D) concealed"],
+            ans: 0,
+            zh: "據報導，這位科學家在偏遠森林進行研究時，發現了一種不尋常的青蛙物種。"
+        },
+        {
+            q: "The medicine is believed ______ pain in certain patients although further clinical trials are still necessary.",
+            opts: ["(A) reduces", "(B) to reduce", "(C) reducing", "(D) that it reduces"],
+            ans: 1,
+            zh: "儘管還需要進一步的臨床試驗，但這種藥物被認為可以減輕某些患者的疼痛。"
+        },
+        {
+            q: "The old school building is said ______ as a temporary hospital during the major earthquake decades ago.",
+            opts: ["(A) to serve", "(B) to be served", "(C) to have served", "(D) to have been served"],
+            ans: 2,
+            zh: "據說這棟舊校舍在數十年前的大地震期間曾作為臨時醫院。"
+        },
+        {
+            q: "______ nearly half the city's residents use public transportation to get to work every day.",
+            opts: ["(A) That is estimated", "(B) The residents are estimated that", "(C) It is estimated that", "(D) It estimated to"],
+            ans: 2,
+            zh: "據估計，近一半的城市居民每天搭乘大眾運輸工具上班。"
+        },
+        {
+            q: "The new rules ______ drivers to slow down near schools during busy morning hours.",
+            opts: ["(A) are expected to encourage", "(B) expect to encourage", "(C) are expected that they encourage", "(D) are expecting to encourage"],
+            ans: 0,
+            zh: "這些新規定預計將鼓勵駕駛人在繁忙的早晨時段在學校附近減速。"
+        },
+        {
+            q: "The students are known ______ regularly at the local shelter whenever additional help is needed.",
+            opts: ["(A) to volunteer", "(B) volunteering", "(C) that they volunteer", "(D) to be volunteered"],
+            ans: 0,
+            zh: "眾所皆知，每當需要額外幫助時，這些學生都會定期在當地庇護所擔任志工。"
+        },
+        {
+            q: "It was reported that the train had been ______ for hours because flooding damaged several sections of track.",
+            opts: ["(A) promoted", "(B) departed", "(C) delayed", "(D) operated"],
+            ans: 2,
+            zh: "據報導，因為洪水損壞了幾段鐵軌，火車誤點了好幾個小時。"
+        },
+        {
+            q: "The concert is ______ to have been canceled after organizers discovered serious problems with the venue's electrical system.",
+            opts: ["(A) requested", "(B) rumored", "(C) commanded", "(D) advised"],
+            ans: 1,
+            zh: "謠傳在主辦單位發現場地電力系統有嚴重問題後，演唱會已被取消。"
+        },
+        {
+            q: "The athlete was said ______ remarkably quickly after surgery, surprising even the doctors treating her.",
+            opts: ["(A) to recover", "(B) to be recovered", "(C) recovering", "(D) to have recovered"],
+            ans: 3,
+            zh: "據說這位運動員在手術後恢復得非常快，甚至讓治療她的醫生都感到驚訝。"
+        }
+    ];
+
+    // Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
+    shuffleArray(questionsData);
+
+    let curIdx = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+
+    function render() {
+        const item = questionsData[curIdx];
+        document.getElementById('progress-label').innerText = `${curIdx + 1} / ${questionsData.length}`;
+        document.getElementById('main-card-inner').classList.remove('is-flipped');
+        
+        const displayQ = item.q.replace(/_+/g, '<span class="blank-text"> </span>');
+        document.getElementById('quiz-stem').innerHTML = displayQ;
+        document.getElementById('back-zh').innerText = item.zh;
+        
+        const optionsArea = document.getElementById('quiz-options');
+        optionsArea.innerHTML = '';
+        item.opts.forEach((optStr, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn' + (userAnswers[curIdx] === optIdx ? ' selected' : '');
+            btn.innerText = optStr;
+            btn.onclick = () => selectOption(optIdx);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('btn-prev').disabled = (curIdx === 0);
+        
+        if (curIdx === questionsData.length - 1) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'block';
+        } else {
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'none';
+        }
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[curIdx] = optIdx;
+        render();
+    }
+
+    function flipCard() {
+        document.getElementById('main-card-inner').classList.toggle('is-flipped');
+    }
+
+    function moveStep(n) {
+        let next = curIdx + n;
+        if (next >= 0 && next < questionsData.length) {
+            curIdx = next;
+            render();
+        }
+    }
+
+    function submitQuiz() {
+        let unanswered = userAnswers.filter(ans => ans === null).length;
+        if (unanswered > 0) {
+            let confirmSubmit = confirm(`你還有 ${unanswered} 題未作答，確定要送出嗎？`);
+            if (!confirmSubmit) return;
+        }
+
+        let correctCount = 0;
+        let reportHTML = '';
+
+        questionsData.forEach((item, index) => {
+            let userAnsIdx = userAnswers[index];
+            let isCorrect = (userAnsIdx === item.ans);
+            if (isCorrect) correctCount++;
+
+            let userAnsStr = userAnsIdx !== null ? item.opts[userAnsIdx] : "（未作答）";
+            let correctAnsStr = item.opts[item.ans];
+            
+            let reviewSent = item.q.replace(/_+/g, `<span class="${isCorrect ? 'text-green' : 'text-red'}"> [ ${userAnsStr} ] </span>`);
+
+            reportHTML += `
+                <div class="result-item">
+                    <div class="review-sent"><b>Q${index + 1}:</b> ${reviewSent}</div>
+                    <div style="font-size:0.95rem; color:#7f8c8d; margin-bottom:10px;">${item.zh}</div>
+                    <div>你的作答：<span class="${isCorrect ? 'text-green' : 'text-red'}">${userAnsStr}</span> ${isCorrect ? '✅' : '❌'}</div>
+                    ${!isCorrect ? `<div>正確答案：<span class="text-green">${correctAnsStr}</span></div>` : ''}
+                </div>
+            `;
+        });
+
+        const rate = Math.round((correctCount / questionsData.length) * 100);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `${rate} 分`;
+        document.getElementById('final-stats').innerText = `答對題數：${correctCount} / ${questionsData.length}`;
+        document.getElementById('report-list-view').innerHTML = reportHTML;
+    }
+
+    window.onload = () => { render(); };
+</script>
+</body>
+</html>
