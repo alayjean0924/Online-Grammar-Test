@@ -1,0 +1,350 @@
+---
+title: "龍騰B2 L4-2：would rather...than 寧願...而不"
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文法測驗：would rather / rather than / instead of 平行結構</title>
+    <style>
+        :root {
+            --primary: #4a90e2; --primary-dark: #357abd;
+            --success: #2ecc71; --danger: #e74c3c;
+            --bg: linear-gradient(135deg, #e0f2e9 0%, #fae8eb 100%);
+            --text: #2c3e50; --gold: #f39c12;
+        }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 0; color: var(--text); }
+        #app { width: 95%; max-width: 750px; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+        
+        .home-card { background: white; padding: 40px 25px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .home-card h1 { font-size: 2rem; color: var(--primary); margin: 0 0 10px; font-weight: 800; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(255,255,255,0.9); padding: 15px 25px; border-radius: 20px; }
+        .btn-back-home { background: #95a5a6; color: white; border: none; padding: 8px 18px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-back-home:hover { filter: brightness(0.9); }
+        
+        .card-container { perspective: 1500px; margin-bottom: 20px; }
+        .card-inner { position: relative; width: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; display: flex; min-height: 300px; }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { width: 100%; padding: 30px; background: white; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+        .card-back { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #fffdf5; border: 3px solid var(--gold); transform: rotateY(180deg); z-index: 1; }
+        
+        .hint-text { font-size: 0.9rem; color: #95a5a6; margin-bottom: 15px; }
+        .sent-box { font-size: 1.4rem; line-height: 1.6; color: #34495e; text-align: left; }
+        .back-zh-box { font-size: 1.4rem; font-weight: bold; line-height: 1.6; color: var(--primary-dark); }
+        
+        .blank-text { 
+            color: var(--primary); 
+            font-weight: 900; 
+            border-bottom: 3px solid var(--primary);
+            padding: 0 10px;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .opt-btn { background: white; border: 2px solid #eef2f7; padding: 20px; border-radius: 15px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; font-weight: 600; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
+        .opt-btn.selected { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.02); box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); }
+        
+        .nav-bar { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
+        .btn-nav { flex: 1; padding: 18px; border-radius: 20px; border: none; background: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-nav:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-nav:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-submit { background: var(--gold); color: white; }
+        .btn-submit:hover { background: #e67e22; }
+
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; width: 85%; max-width: 320px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+
+        .result-list { text-align: left; background: #f8f9fa; border-radius: 20px; padding: 20px; margin-top: 25px; max-height: 500px; overflow-y: auto; }
+        .result-item { border-bottom: 2px solid #ddd; padding: 20px 0; font-size: 1.1rem; }
+        .result-item:last-child { border-bottom: none; }
+        .text-green { color: var(--success); font-weight: bold; }
+        .text-red { color: var(--danger); font-weight: bold; }
+        .review-sent { font-size: 1.2rem; margin-bottom: 10px; color: #34495e; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="quiz-screen" class="screen active">
+        <div class="top-nav" style="flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-back-home" style="background: var(--primary);" onclick="window.location.href='{{ "/" | relative_url }}'">⌂ 返回文法複習主頁面</button>
+                <button class="btn-back-home" onclick="location.reload()">↺ 重新開始</button>
+            </div>
+            <div style="font-weight: 800; color: var(--primary); white-space: nowrap;">Unit 4-2 | 第 <span id="progress-label"></span> 題</div>
+        </div>
+        
+        <div class="card-container" onclick="flipCard()">
+            <div class="card-inner" id="main-card-inner">
+                <div class="card-face card-front">
+                    <div class="hint-text">💡 點擊卡片翻面看中文解釋</div>
+                    <div id="quiz-stem" class="sent-box"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="hint-text" style="color: #d35400;">💡 點擊卡片翻回題目</div>
+                    <div id="back-zh" class="back-zh-box"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quiz-options" class="options-grid"></div>
+
+        <div class="nav-bar">
+            <button id="btn-prev" class="btn-nav" onclick="moveStep(-1)">← 上一題</button>
+            <button id="btn-next" class="btn-nav" onclick="moveStep(1)">下一題 →</button>
+            <button id="btn-submit" class="btn-nav btn-submit" style="display:none;" onclick="submitQuiz()">送出看成績 📝</button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="home-card">
+            <h2 id="final-title" style="margin-bottom:20px;">🏆 測驗完成！</h2>
+            <div id="final-score" style="font-size: 3.5rem; color: var(--primary); font-weight: 800; margin: 10px 0;"></div>
+            <p id="final-stats" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px;"></p>
+            <div id="report-list-view" class="result-list"></div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px;">
+                <button class="btn-main" onclick="location.reload()" style="margin: 0;">↺ 再測驗一次</button>
+                <button class="btn-main" onclick="window.location.href='{{ "/" | relative_url }}'" style="margin: 0; background: #95a5a6;">⌂ 返回文法複習主頁面</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            q: "Many students would rather study in the library ______ a noisy café when preparing for important exams.",
+            opts: ["(A) than in", "(B) than to", "(C) instead of in", "(D) rather than in"],
+            ans: 0,
+            zh: "準備重要考試時，許多學生寧願在圖書館讀書，也不願在吵雜的咖啡廳。"
+        },
+        {
+            q: "My parents would rather spend money on family trips ______ expensive gifts that quickly lose their appeal.",
+            opts: ["(A) than to", "(B) than on", "(C) instead of on", "(D) rather than on"],
+            ans: 1,
+            zh: "我父母寧願把錢花在家庭旅行上，也不願花在很快就失去吸引力的昂貴禮物上。"
+        },
+        {
+            q: "The school would rather invest in safer crossing points ______ more parking spaces near the crowded entrance.",
+            opts: ["(A) rather than in", "(B) instead of in", "(C) than in", "(D) than on"],
+            ans: 2,
+            zh: "學校寧願投資於擁擠入口附近更安全的穿越點，也不願投資於更多的停車位。"
+        },
+        {
+            q: "I would rather admit that I misunderstood the instructions than ______ the teacher deliberately confused everyone in class.",
+            opts: ["(A) claimed that", "(B) claiming that", "(C) to claim that", "(D) claim that"],
+            ans: 3,
+            zh: "我寧願承認我誤解了指示，也不願聲稱老師在課堂上故意混淆大家。"
+        },
+        {
+            q: "Wanting to fully understand the research, she would rather ______ than watch a short video that leaves out important scientific evidence.",
+            opts: ["(A) read a detailed article", "(B) ignore the facts completely", "(C) reading a detailed article", "(D) read a short summary"],
+            ans: 0,
+            zh: "為了充分了解研究，她寧願閱讀詳細的文章，也不願看遺漏了重要科學證據的短片。"
+        },
+        {
+            q: "Our coach would rather ______ than risk another injury on a field still slippery after rain.",
+            opts: ["(A) postponing the match", "(B) postpone the match", "(C) postponed the match", "(D) to postpone the match"],
+            ans: 1,
+            zh: "我們的教練寧願推遲比賽，也不願在雨後仍然濕滑的場地上冒再次受傷的風險。"
+        },
+        {
+            q: "Believing in resource redistribution, the volunteers would rather repair donated bicycles than ______ that could still benefit children in nearby communities.",
+            opts: ["(A) preserve resources", "(B) discarding equipment", "(C) discard equipment", "(D) to discard equipment"],
+            ans: 2,
+            zh: "相信資源的重新分配，志工們寧願修理捐贈的腳踏車，也不願丟棄仍能造福附近社區兒童的設備。"
+        },
+        {
+            q: "I would take the train ______ drive through heavy traffic whenever I visit my grandparents in Taipei.",
+            opts: ["(A) than", "(B) to", "(C) instead of", "(D) rather than"],
+            ans: 3,
+            zh: "每當我去台北拜訪祖父母時，我會搭火車而不是在擁擠的車陣中開車。"
+        },
+        {
+            q: "The committee would support local businesses rather than ______ another shopping mall near the city's historic central market.",
+            opts: ["(A) approve", "(B) approving", "(C) approved", "(D) to approve"],
+            ans: 0,
+            zh: "委員會寧願支持當地企業，也不願批准在城市歷史悠久的中央市場附近再建一個購物中心。"
+        },
+        {
+            q: "She would explain that the figures were estimates rather than ______ they represented exact monthly sales totals.",
+            opts: ["(A) pretended that", "(B) pretend that", "(C) pretending that", "(D) to pretend that"],
+            ans: 1,
+            zh: "她會解釋這些數字是估算值，而不是假裝它們代表準確的每月銷售總額。"
+        },
+        {
+            q: "To avoid being in debt, my brother would ______ rather than borrow cash from friends every few months.",
+            opts: ["(A) to save money for a used laptop", "(B) spend all his money on games", "(C) save money for a used laptop", "(D) saving money for a used laptop"],
+            ans: 2,
+            zh: "為了避免負債，我哥哥會為了買二手筆電而存錢，而不是每幾個月就向朋友借錢。"
+        },
+        {
+            q: "The charity would focus on providing meals ______ organizing events that offer little lasting community benefit.",
+            opts: ["(A) rather than to", "(B) rather than in", "(C) than on", "(D) rather than on"],
+            ans: 3,
+            zh: "慈善機構寧願將重點放在提供餐點上，也不願放在舉辦對社區幾乎沒有持久益處的活動上。"
+        },
+        {
+            q: "The principal would rely on student feedback ______ rumors when deciding whether to change school rules.",
+            opts: ["(A) rather than on", "(B) rather than in", "(C) than on", "(D) instead to"],
+            ans: 0,
+            zh: "在決定是否更改校規時，校長寧願依賴學生的回饋而不是謠言。"
+        },
+        {
+            q: "Because the journey offers better views of the countryside, we would ______ rather than by plane.",
+            opts: ["(A) travel by a fast jet", "(B) travel by train", "(C) traveling by train", "(D) to travel by train"],
+            ans: 1,
+            zh: "因為這趟旅程能提供更棒的鄉村風景，我們會搭火車而不是搭飛機。"
+        },
+        {
+            q: "Many families would cook at home ______ takeout when they want healthier meals for their children.",
+            opts: ["(A) instead of order", "(B) rather than to order", "(C) instead of ordering", "(D) than ordering"],
+            ans: 2,
+            zh: "當許多家庭想為孩子準備更健康的餐點時，他們會在家做飯而不是叫外賣。"
+        },
+        {
+            q: "The student would ask for feedback instead of ______ about what was wrong with her previous essay draft.",
+            opts: ["(A) guess", "(B) to guess", "(C) guessed", "(D) guessing"],
+            ans: 3,
+            zh: "這名學生會尋求回饋，而不是猜測她之前的草稿哪裡出了問題。"
+        },
+        {
+            q: "Our class would learn through experiments ______ definitions without understanding how scientific principles work in practice.",
+            opts: ["(A) instead of memorizing", "(B) instead of memorize", "(C) rather than to memorize", "(D) than memorizing"],
+            ans: 0,
+            zh: "我們班會透過實驗學習，而不是在不理解科學原理實際運作的情況下死記硬背定義。"
+        },
+        {
+            q: "Wishing to maintain workplace harmony, the manager would ______ instead of criticizing their mistakes in front of the entire office.",
+            opts: ["(A) yell at everyone loudly", "(B) speak to employees privately", "(C) speaking to employees privately", "(D) to speak to employees privately"],
+            ans: 1,
+            zh: "為了維持職場和諧，經理會私下與員工談話，而不是在整個辦公室面前批評他們的錯誤。"
+        },
+        {
+            q: "I would explain that the plan needs revision instead of ______ every problem has already been solved.",
+            opts: ["(A) pretending", "(B) pretend that", "(C) pretending that", "(D) to pretend that"],
+            ans: 2,
+            zh: "我會解釋該計畫需要修改，而不是假裝每個問題都已經解決。"
+        },
+        {
+            q: "To reduce traffic jams, the town would ______ instead of investing in wider roads that attract more private vehicles.",
+            opts: ["(A) investing in public buses", "(B) build more parking lots", "(C) to invest in public buses", "(D) invest in public buses"],
+            ans: 3,
+            zh: "為了減少交通壅塞，該鎮會投資公共巴士，而不是投資吸引更多私家車的寬闊道路。"
+        }
+    ];
+
+    // Fisher-Yates 洗牌演算法，用於打亂題目陣列順序
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // 在初始化變數與渲染畫面之前，先將題目陣列洗牌
+    shuffleArray(questionsData);
+
+    let curIdx = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+
+    function render() {
+        const item = questionsData[curIdx];
+        document.getElementById('progress-label').innerText = `${curIdx + 1} / ${questionsData.length}`;
+        document.getElementById('main-card-inner').classList.remove('is-flipped');
+        
+        const displayQ = item.q.replace(/_+/g, '<span class="blank-text"> </span>');
+        document.getElementById('quiz-stem').innerHTML = displayQ;
+        document.getElementById('back-zh').innerText = item.zh;
+        
+        const optionsArea = document.getElementById('quiz-options');
+        optionsArea.innerHTML = '';
+        item.opts.forEach((optStr, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn' + (userAnswers[curIdx] === optIdx ? ' selected' : '');
+            btn.innerText = optStr;
+            btn.onclick = () => selectOption(optIdx);
+            optionsArea.appendChild(btn);
+        });
+
+        document.getElementById('btn-prev').disabled = (curIdx === 0);
+        
+        if (curIdx === questionsData.length - 1) {
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'block';
+        } else {
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'none';
+        }
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[curIdx] = optIdx;
+        render();
+    }
+
+    function flipCard() {
+        document.getElementById('main-card-inner').classList.toggle('is-flipped');
+    }
+
+    function moveStep(n) {
+        let next = curIdx + n;
+        if (next >= 0 && next < questionsData.length) {
+            curIdx = next;
+            render();
+        }
+    }
+
+    function submitQuiz() {
+        let unanswered = userAnswers.filter(ans => ans === null).length;
+        if (unanswered > 0) {
+            let confirmSubmit = confirm(`你還有 ${unanswered} 題未作答，確定要送出嗎？`);
+            if (!confirmSubmit) return;
+        }
+
+        let correctCount = 0;
+        let reportHTML = '';
+
+        questionsData.forEach((item, index) => {
+            let userAnsIdx = userAnswers[index];
+            let isCorrect = (userAnsIdx === item.ans);
+            if (isCorrect) correctCount++;
+
+            let userAnsStr = userAnsIdx !== null ? item.opts[userAnsIdx] : "（未作答）";
+            let correctAnsStr = item.opts[item.ans];
+            
+            let reviewSent = item.q.replace(/_+/g, `<span class="${isCorrect ? 'text-green' : 'text-red'}"> [ ${userAnsStr} ] </span>`);
+
+            reportHTML += `
+                <div class="result-item">
+                    <div class="review-sent"><b>Q${index + 1}:</b> ${reviewSent}</div>
+                    <div style="font-size:0.95rem; color:#7f8c8d; margin-bottom:10px;">${item.zh}</div>
+                    <div>你的作答：<span class="${isCorrect ? 'text-green' : 'text-red'}">${userAnsStr}</span> ${isCorrect ? '✅' : '❌'}</div>
+                    ${!isCorrect ? `<div>正確答案：<span class="text-green">${correctAnsStr}</span></div>` : ''}
+                </div>
+            `;
+        });
+
+        const rate = Math.round((correctCount / questionsData.length) * 100);
+        document.getElementById('quiz-screen').classList.remove('active');
+        document.getElementById('result-screen').classList.add('active');
+        document.getElementById('final-score').innerText = `${rate} 分`;
+        document.getElementById('final-stats').innerText = `答對題數：${correctCount} / ${questionsData.length}`;
+        document.getElementById('report-list-view').innerHTML = reportHTML;
+    }
+
+    window.onload = () => { render(); };
+</script>
+</body>
+</html>
